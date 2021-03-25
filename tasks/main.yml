@@ -40,6 +40,12 @@
 - include: download_binary.yml
   when: not (neogo__use_compose | bool)
 
+- include: prepare_wallets.yml
+  when: >
+    (neogo__unlock_wallet | bool) or
+    (neogo__stateroot_unlock_wallet | bool) or
+    (neogo__oracle_unlock_wallet | bool)
+
 - name: Prepare NeoGo config for {{ neogo__network }}
   ansible.builtin.template:
     src: 'protocol.network.yml.j2'

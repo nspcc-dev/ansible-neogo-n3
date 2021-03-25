@@ -64,7 +64,7 @@ Oracle:
 {% for v in neogo__oracle_neofs_nodes %}
         - {{ v }}
 {% endfor %}
-{% if neogo_oracle_unlock_wallet | bool %}
+{% if neogo__oracle_unlock_wallet | bool %}
     UnlockWallet:
       Path: "{{ neogo__oracle_wallet_path }}"
       Password: "{{ neogo__oracle_wallet_pass }}"
@@ -73,7 +73,7 @@ Oracle:
 {% if neogo__stateroot_enabled | bool %}
   StateRoot:
     Enabled: true
-{% if neogo_stateroot_unlock_wallet %}
+{% if neogo__stateroot_unlock_wallet %}
     UnlockWallet:
       Path: "{{ neogo__stateroot_wallet_path }}"
       Password: "{{ neogo__stateroot_wallet_pass }}"

@@ -99,14 +99,14 @@ neogo__pprof_host_allow: []
 
 neogo__stateroot_enabled: False
 neogo__stateroot_unlock_wallet: False
-neogo__stateroot_wallet_path: "{{ neogo__conf_dir }}/wallet.json"
+neogo__stateroot_wallet_path: "{{ neogo__conf_dir }}/wallet.stateroot.json"
 neogo__stateroot_wallet_pass: 'Th3r315N05p00n!'
 neogo__stateroot_wallet_content: ''
 
 neogo__oracle_enabled: False
 neogo__oracle_allow_private: False
 neogo__oracle_unlock_wallet: False
-neogo__oracle_wallet_path: "{{ neogo__conf_dir }}/wallet.json"
+neogo__oracle_wallet_path: "{{ neogo__conf_dir }}/wallet.oracle.json"
 neogo__oracle_wallet_pass: 'Th3r315N05p00n!'
 neogo__oracle_wallet_content: ''
 
@@ -135,4 +135,4 @@ neogo__low_priority_th: '0.001'
 neogo__seed_list: "{{ neogo__network_opts[neogo__network].seed_list }}"
 neogo__standby_committee: "{{ neogo__network_opts[neogo__network].standby_committee }}"
 neogo__oracle_nodes: "{{ neogo__network_opts[neogo__network].oracle_nodes }}"
-neogo__oracle__neofs_nodes: ['127.0.0.1:8080']
+neogo__oracle_neofs_nodes: ['127.0.0.1:8080']
