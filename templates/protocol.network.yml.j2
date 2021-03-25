@@ -1,0 +1,93 @@
+ProtocolConfiguration:
+  Magic: {{ neogo__magic }}
+  SecondsPerBlock: {{ neogo__seconds_per_block }}
+  MemPoolSize: 50000
+  StandbyCommittee:
+{% for v in neogo__standby_committee %}
+    - {{ v }}
+{% endfor %}
+  ValidatorsCount: {{ neogo__standby_committee|length }}
+  SeedList:
+{% for s in neogo__seed_list %}
+    - {{ s }}
+{% endfor %}
+  VerifyBlocks: true
+  VerifyTransactions: true
+
+ApplicationConfiguration:
+  DBConfiguration:
+    Type: "leveldb"
+    LevelDBOptions:
+      DataDirectoryPath: "{{ neogo__data_dir }}"
+  Address: {{ neogo__p2p_address }}
+  NodePort: {{ neogo__p2p_port }}
+  Relay: true
+  DialTimeout: 3
+  ProtoTickInterval: 2
+  PingInterval: 30
+  PingTimeout: 90
+  MaxPeers: {{ neogo__max_peers }}
+  MinPeers: {{ neogo__min_peers }}
+  AttemptConnPeers: 20
+{% if neogo__unlock_wallet | bool %}
+  UnlockWallet:
+    Path: "{{ neogo__wallet_path }}"
+    Password: "{{ neogo__wallet_pass }}"
+{% endif %}
+{% if neogo__rpc_enabled | bool %}
+  RPC:
+    Enabled: true
+    MaxGasInvoke: 100
+    EnableCORSWorkaround: {{ neogo__rpc_cors_kludge }}
+    Address: {{ neogo__rpc_address }}
+    Port: {{ neogo__rpc_port }}
+{% endif %}
+{% if neogo__tls_enabled | bool %}
+    TLSConfig:
+      Enabled: true
+      Address: {{ neogo__tls_address }}
+      Port: {{ neogo__tls_port }}
+      CertFile: {{ neogo__tls_cert }}
+      KeyFile: {{ neogo__tls_key }}
+{% endif %}
+{% if neogo__oracle_enabled | bool %}
+Oracle:
+    Enabled: true
+    AllowPrivateHost: {{ neogo__oracle_allow_private }}
+    MaxTaskTimeout: 432000000
+    Nodes:
+{% for v in neogo__oracle_nodes %}
+      - {{ v }}
+{% endfor %}
+    NeoFS:
+      Nodes:
+{% for v in neogo__oracle_neofs_nodes %}
+        - {{ v }}
+{% endfor %}
+{% if neogo_oracle_unlock_wallet | bool %}
+    UnlockWallet:
+      Path: "{{ neogo__oracle_wallet_path }}"
+      Password: "{{ neogo__oracle_wallet_pass }}"
+{% endif %}
+{% endif %}
+{% if neogo__stateroot_enabled | bool %}
+  StateRoot:
+    Enabled: true
+{% if neogo_stateroot_unlock_wallet %}
+    UnlockWallet:
+      Path: "{{ neogo__stateroot_wallet_path }}"
+      Password: "{{ neogo__stateroot_wallet_pass }}"
+{% endif %}
+{% endif %}
+{% if neogo__prometheus_enabled | bool %}
+  Prometheus:
+    Enabled: true
+    Address: {{ neogo__prometheus_address }}
+    Port: {{ neogo__prometheus_port }}
+{% endif %}
+{% if neogo__pprof_enabled | bool %}
+  Pprof:
+    Enabled: true
+    Address: {{ neogo__pprof_address }}
+    Port: {{ neogo__pprof_port }}
+{% endif %}

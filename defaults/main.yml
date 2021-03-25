@@ -1,2 +1,138 @@
 ---
-# defaults file for neogo-n3
+
+# User and group for neo-go to run and own files
+neogo__user: 'neogo'
+neogo__group: 'neogo'
+
+# Instance name to have multiple neo-go nodes on the same host
+neogo__instance: ''
+
+# Directory for configuration files and wallets
+neogo__conf_dir: "/etc/neogo{{ neogo__instance }}"
+
+# Directory for chain database, snapshots and thing alike
+neogo__data_dir: '/var/lib/neogo{{ neogo__instance }}'
+
+# Available N3 networks:
+# - mainnet
+# - testnet
+# - privnet
+neogo__network: 'mainnet'
+
+neogo__network_opts:
+  'mainnet':
+    'p2p': '10333'
+    'rpc': '10332'
+    'tls': '10331'
+    'magic': '7630401'
+  'testnet':
+    'p2p': '20333'
+    'rpc': '20332'
+    'tls': '20331'
+    'magic': '827601742'
+    'standby_committee':
+      - '023e9b32ea89b94d066e649b124fd50e396ee91369e8e2a6ae1b11c170d022256d'
+      - '03009b7540e10f2562e5fd8fac9eaec25166a58b26e412348ff5a86927bfac22a2'
+      - '02ba2c70f5996f357a43198705859fae2cfea13e1172962800772b3d588a9d4abd'
+      - '03408dcd416396f64783ac587ea1e1593c57d9fea880c8a6a1920e92a259477806'
+      - '02a7834be9b32e2981d157cb5bbd3acb42cfd11ea5c3b10224d7a44e98c5910f1b'
+      - '0214baf0ceea3a66f17e7e1e839ea25fd8bed6cd82e6bb6e68250189065f44ff01'
+      - '030205e9cefaea5a1dfc580af20c8d5aa2468bb0148f1a5e4605fc622c80e604ba'
+    'seed_list':
+      - 'seed1t.neo.org:20333'
+      - 'seed2t.neo.org:20333'
+      - 'seed3t.neo.org:20333'
+      - 'seed4t.neo.org:20333'
+      - 'seed5t.neo.org:20333'
+    'oracle_nodes':
+      - 'oracle1.ngd.network:20332'
+      - 'oracle2.ngd.network:20332'
+      - 'oracle3.ngd.network:20332'
+      - 'oracle1.n3.nspcc.ru:30332'
+  'privnet':
+    'p2p': '30333'
+    'rpc': '30332'
+    'tls': '30331'
+    'magic': '56753'
+    'standby_committee':
+      - '02b3622bf4017bdfe317c58aed5f4c753f206b7db896046fa7d774bbc4bf7f8dc2'
+    'seed_list':
+      - '127.0.0.1:30333'
+
+# Ports and options for each service
+neogo__p2p_port: '{{ neogo__network_opts[neogo__network].p2p }}'
+neogo__p2p_address: '0.0.0.0'
+neogo__p2p_allow: []
+neogo__p2p_group_allow: []
+neogo__p2p_host_allow: []
+
+neogo__rpc_enabled: True
+neogo__rpc_port: '{{ neogo__network_opts[neogo__network].rpc }}'
+neogo__rpc_address: '0.0.0.0'
+neogo__rpc_allow: []
+neogo__rpc_group_allow: []
+neogo__rpc_host_allow: []
+neogo__rpc_cors_kludge: False
+
+neogo__tls_enabled: False
+neogo__tls_port: '{{ neogo__network_opts[neogo__network].tls }}'
+neogo__tls_address: '0.0.0.0'
+neogo__tls_cert: "{{ neogo__conf_dir }}/server.crt"
+neogo__tls_key: "{{ neogo__conf_dir }}/server.key"
+neogo__tls_allow: []
+neogo__tls_group_allow: []
+neogo__tls_host_allow: []
+
+neogo__prometheus_enabled: False
+neogo__prometheus_port: '2112'
+neogo__prometheus_address: '0.0.0.0'
+neogo__prometheus_allow: []
+neogo__prometheus_group_allow: []
+neogo__prometheus_host_allow: []
+
+neogo__pprof_enabled: False
+neogo__pprof_port: '2113'
+neogo__pprof_address: '0.0.0.0'
+neogo__pprof_allow: []
+neogo__pprof_group_allow: []
+neogo__pprof_host_allow: []
+
+neogo__stateroot_enabled: False
+neogo__stateroot_unlock_wallet: False
+neogo__stateroot_wallet_path: "{{ neogo__conf_dir }}/wallet.json"
+neogo__stateroot_wallet_pass: 'Th3r315N05p00n!'
+neogo__stateroot_wallet_content: ''
+
+neogo__oracle_enabled: False
+neogo__oracle_allow_private: False
+neogo__oracle_unlock_wallet: False
+neogo__oracle_wallet_path: "{{ neogo__conf_dir }}/wallet.json"
+neogo__oracle_wallet_pass: 'Th3r315N05p00n!'
+neogo__oracle_wallet_content: ''
+
+neogo__unlock_wallet: False
+neogo__wallet_path: "{{ neogo__conf_dir }}/wallet.json"
+neogo__wallet_pass: 'Th3r315N05p00n!'
+neogo__wallet_content: ''
+
+# NeoGo options
+neogo__version: '0.94.0'
+neogo__docker_image: "nspccdev/neo-go:{{ neogo__version }}"
+neogo__bin_url: "https://github.com/nspcc-dev/neo-go/releases/download/v{{ neogo__version }}/neo-go-linux-amd64"
+neogo__bin_path: '/usr/local/bin/neo-go'
+
+# Systemd unit may use docker compose to run neo-go in container, instead of
+# local binary.
+neogo__use_compose: false
+
+# Neo Node configuration
+neogo__seconds_per_block: '15'
+neogo__magic: '{{ neogo__network_opts[neogo__network].magic }}'
+neogo__min_peers: "{{ (neogo__network == 'privnet')|ternary(0, 5) }}"
+neogo__max_peers: '100'
+neogo__low_priority_th: '0.001'
+
+neogo__seed_list: "{{ neogo__network_opts[neogo__network].seed_list }}"
+neogo__standby_committee: "{{ neogo__network_opts[neogo__network].standby_committee }}"
+neogo__oracle_nodes: "{{ neogo__network_opts[neogo__network].oracle_nodes }}"
+neogo__oracle__neofs_nodes: ['127.0.0.1:8080']

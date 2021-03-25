@@ -1,2 +1,61 @@
 ---
-# tasks file for neogo-n3
+
+# Prepare system
+- name: Ensure there is neo-go group
+  ansible.builtin.group:
+    name: "{{ neogo__group }}"
+    system: True
+    state: 'present'
+
+- name: Ensure there is neo-go user
+  ansible.builtin.user:
+    name: "{{ neogo__user }}"
+    group: "{{ neogo__group }}"
+    password: !
+    shell: /usr/sbin/nologin
+    home: "{{ neogo__data_dir }}"
+    system: True
+    state: 'present'
+
+- name: Ensure data directory exists
+  ansible.builtin.file:
+    state: directory
+    path: "{{ item }}"
+    owner: "{{ neogo__user }}"
+    group: "{{ neogo__group }}"
+    mode: '0750'
+  with_items:
+    - "{{ neogo__data_dir }}"
+
+- name: Ensure configuration directory exists
+  ansible.builtin.file:
+    state: directory
+    path: "{{ item }}"
+    owner: "root"
+    group: "{{ neogo__group }}"
+    mode: '0750'
+  with_items:
+    - "{{ neogo__conf_dir }}"
+
+- include: download_binary.yml
+  when: not (neogo__use_compose | bool)
+
+- name: Prepare NeoGo config for {{ neogo__network }}
+  ansible.builtin.template:
+    src: 'protocol.network.yml.j2'
+    dest: "{{ neogo__conf_dir }}/protocol.{{ neogo__network }}.yml"
+    owner: 'root'
+    group: "{{ neogo__group }}"
+    mode: '0640'
+
+- name: Copy regular systemd unit file
+  ansible.builtin.template:
+    src: "neogo-n3.service.bin.j2"
+    dest: "/etc/systemd/system/neogo{{ neogo__instance }}.service"
+  when: not (neogo__use_compose | bool)
+
+- name: Copy Docker systemd unit file
+  ansible.builtin.template:
+    src: "neogo-n3.service.compose.j2"
+    dest: "/etc/systemd/system/neogo{{ neogo__instance }}.service"
+  when: neogo__use_compose | bool

@@ -1,0 +1,11 @@
+---
+
+# TODO: Check if the existing binary matches the remote file and update if
+# necessary.
+- name: Download neo-go binary
+  ansible.builtin.get_url:
+    url: "{{ neogo__bin_url }}"
+    dest: "{{ neogo__bin_path }}"
+    mode: '0755'
+    owner: 'root'
+    group: 'root'

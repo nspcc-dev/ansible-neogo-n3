@@ -1,0 +1,18 @@
+[Unit]
+Description=Neo N3 node on neogo{{ neogo__instance }}
+Requires=network.target
+
+[Service]
+Type=simple
+ExecStart={{ neogo__bin_path }} node --{{ neogo__network }} --config-path={{ neogo__conf_dir }}
+User={{ neogo__user }}
+Group={{ neogo__group }}
+Restart=always
+RestartSec=5
+StandardError=syslog
+SyslogIdentifier=neogo{{ neogo__instance }}
+PrivateTmp=true
+WorkingDirectory={{ neogo__data_dir }}
+
+[Install]
+WantedBy=multi-user.target
