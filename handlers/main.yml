@@ -1,2 +1,7 @@
 ---
-# handlers file for neogo-n3
+
+- name: Restart neogo{{ neogo__instance }} service
+  ansible.builtin.systemd:
+    name: "neogo{{ neogo__instance }}.service"
+    state: 'restarted'
+    daemon_reload: yes
