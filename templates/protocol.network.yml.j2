@@ -47,8 +47,8 @@ ApplicationConfiguration:
       Enabled: true
       Address: {{ neogo__tls_address }}
       Port: {{ neogo__tls_port }}
-      CertFile: {{ neogo__tls_cert }}
-      KeyFile: {{ neogo__tls_key }}
+      CertFile: {{ neogo__tls_cert_path }}
+      KeyFile: {{ neogo__tls_key_path }}
 {% endif %}
 {% if neogo__oracle_enabled | bool %}
 Oracle:

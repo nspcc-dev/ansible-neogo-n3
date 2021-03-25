@@ -46,6 +46,9 @@
     (neogo__stateroot_unlock_wallet | bool) or
     (neogo__oracle_unlock_wallet | bool)
 
+- include: prepare_tls.yml
+  when: neogo__tls_enabled | bool
+
 - name: Prepare NeoGo config for {{ neogo__network }}
   ansible.builtin.template:
     src: 'protocol.network.yml.j2'

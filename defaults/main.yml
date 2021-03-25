@@ -77,8 +77,8 @@ neogo__rpc_cors_kludge: False
 neogo__tls_enabled: False
 neogo__tls_port: '{{ neogo__network_opts[neogo__network].tls }}'
 neogo__tls_address: '0.0.0.0'
-neogo__tls_cert: "{{ neogo__conf_dir }}/server.crt"
-neogo__tls_key: "{{ neogo__conf_dir }}/server.key"
+neogo__tls_cert_path: "{{ neogo__conf_dir }}/server.crt"
+neogo__tls_key_path: "{{ neogo__conf_dir }}/server.key"
 neogo__tls_allow: []
 neogo__tls_group_allow: []
 neogo__tls_host_allow: []
