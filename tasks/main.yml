@@ -56,6 +56,8 @@
     owner: 'root'
     group: "{{ neogo__group }}"
     mode: '0640'
+  notify:
+    - Restart neogo{{ neogo__instance }} service
 
 - name: Get uid for neo-go user
   ansible.builtin.getent:
@@ -100,3 +102,11 @@
     state: 'started'
     enabled: yes
     daemon_reload: yes
+
+- name: Force debops.ferm run
+  include_role:
+    name: debops.debops.ferm
+  vars:
+    ferm__dependent_rules:
+      - "{{ neogo__ferm__dependent_rules }}"
+  when: neogo__debops_ferm_import | bool

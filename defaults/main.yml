@@ -5,7 +5,7 @@ neogo__user: 'neogo'
 neogo__group: 'neogo'
 
 # Instance name to have multiple neo-go nodes on the same host
-neogo__instance: ''
+neogo__instance: "-testnet"
 
 # Directory for configuration files and wallets
 neogo__conf_dir: "/etc/neogo{{ neogo__instance }}"
@@ -67,21 +67,20 @@ neogo__p2p_group_allow: []
 neogo__p2p_host_allow: []
 
 neogo__rpc_enabled: True
+neogo__rpc_cors_kludge: False
 neogo__rpc_port: '{{ neogo__network_opts[neogo__network].rpc }}'
 neogo__rpc_address: '0.0.0.0'
+# Same list will be used for TLS ports
 neogo__rpc_allow: []
 neogo__rpc_group_allow: []
 neogo__rpc_host_allow: []
-neogo__rpc_cors_kludge: False
 
+# TLS requires RPC to be enabled
 neogo__tls_enabled: False
 neogo__tls_port: '{{ neogo__network_opts[neogo__network].tls }}'
 neogo__tls_address: '0.0.0.0'
 neogo__tls_cert_path: "{{ neogo__conf_dir }}/server.crt"
 neogo__tls_key_path: "{{ neogo__conf_dir }}/server.key"
-neogo__tls_allow: []
-neogo__tls_group_allow: []
-neogo__tls_host_allow: []
 
 neogo__prometheus_enabled: False
 neogo__prometheus_port: '2112'
@@ -136,3 +135,55 @@ neogo__seed_list: "{{ neogo__network_opts[neogo__network].seed_list }}"
 neogo__standby_committee: "{{ neogo__network_opts[neogo__network].standby_committee }}"
 neogo__oracle_nodes: "{{ neogo__network_opts[neogo__network].oracle_nodes }}"
 neogo__oracle_neofs_nodes: ['127.0.0.1:8080']
+
+# Force debops.ferm run via role import
+# May be useful when you need to have multiple instances with different
+# firewall rules for each one.
+neogo__debops_ferm_import: False
+
+# firewall configuration to be applied with debops.ferm role
+neogo__ferm__dependent_rules:
+  - type: 'accept'
+    name: "neogo{{ neogo__instance }}_p2p"
+    dport: [ '{{ neogo__p2p_port }}' ]
+    daddr: [ '{{ neogo__p2p_address }}' ]
+    saddr: '{{ neogo__p2p_allow + neogo__p2p_group_allow + neogo__p2p_host_allow }}'
+    protocol: 'tcp'
+    role: 'neogo-n3'
+    rule_state: "present"
+
+  - type: 'accept'
+    name: "neogo{{ neogo__instance }}_rpc"
+    dport: [ '{{ neogo__rpc_port }}' ]
+    daddr: [ '{{ neogo__rpc_address }}' ]
+    saddr: '{{ neogo__rpc_allow + neogo__rpc_group_allow + neogo__rpc_host_allow }}'
+    protocol: 'tcp'
+    role: 'neogo-n3'
+    rule_state: "{{ 'present' if neogo__rpc_enabled else 'absent' }}"
+
+  - type: 'accept'
+    name: "neogo{{ neogo__instance }}_tls"
+    dport: [ '{{ neogo__tls_port }}' ]
+    daddr: [ '{{ neogo__tls_address }}' ]
+    saddr: '{{ neogo__rpc_allow + neogo__rpc_group_allow + neogo__rpc_host_allow }}'
+    protocol: 'tcp'
+    role: 'neogo-n3'
+    rule_state: "{{ 'present' if neogo__tls_enabled else 'absent' }}"
+
+  - type: 'accept'
+    name: "neogo{{ neogo__instance }}_prometheus"
+    dport: [ '{{ neogo__prometheus_port }}' ]
+    daddr: [ '{{ neogo__prometheus_address }}' ]
+    saddr: '{{ neogo__prometheus_allow + neogo__prometheus_group_allow + neogo__prometheus_host_allow }}'
+    protocol: 'tcp'
+    role: 'neogo-n3'
+    rule_state: "{{ 'present' if neogo__prometheus_enabled else 'absent' }}"
+
+  - type: 'accept'
+    name: "neogo{{ neogo__instance }}_pprof"
+    dport: [ '{{ neogo__pprof_port }}' ]
+    daddr: [ '{{ neogo__pprof_address }}' ]
+    saddr: '{{ neogo__pprof_allow + neogo__pprof_group_allow + neogo__pprof_host_allow }}'
+    protocol: 'tcp'
+    role: 'neogo-n3'
+    rule_state: "{{ 'present' if neogo__pprof_enabled else 'absent' }}"
