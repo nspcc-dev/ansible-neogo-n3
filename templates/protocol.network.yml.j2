@@ -51,7 +51,7 @@ ApplicationConfiguration:
       KeyFile: {{ neogo__tls_key_path }}
 {% endif %}
 {% if neogo__oracle_enabled | bool %}
-Oracle:
+  Oracle:
     Enabled: true
     AllowPrivateHost: {{ neogo__oracle_allow_private }}
     MaxTaskTimeout: 432000000

@@ -45,10 +45,10 @@ neogo__network_opts:
       - 'seed4t.neo.org:20333'
       - 'seed5t.neo.org:20333'
     'oracle_nodes':
-      - 'oracle1.ngd.network:20332'
-      - 'oracle2.ngd.network:20332'
-      - 'oracle3.ngd.network:20332'
-      - 'oracle1.n3.nspcc.ru:30332'
+      - 'http://oracle1.ngd.network:20332'
+      - 'http://oracle2.ngd.network:20332'
+      - 'http://oracle3.ngd.network:20332'
+      - 'http://oracle1.n3.nspcc.ru:30332'
   'privnet':
     'p2p': '30333'
     'rpc': '30332'
