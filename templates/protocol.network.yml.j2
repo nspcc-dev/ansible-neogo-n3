@@ -13,6 +13,8 @@ ProtocolConfiguration:
 {% endfor %}
   VerifyBlocks: true
   VerifyTransactions: true
+  P2PSigExtensions: {{ neogo__p2psig_ext_enabled }}
+  StateRootInHeader: {{ neogo__stateroot_in_header_enabled }}
 
 ApplicationConfiguration:
   DBConfiguration:
@@ -77,6 +79,15 @@ ApplicationConfiguration:
     UnlockWallet:
       Path: "{{ neogo__stateroot_wallet_path }}"
       Password: "{{ neogo__stateroot_wallet_pass }}"
+{% endif %}
+{% endif %}
+{% if neogo__p2pnotary_enabled | bool %}
+  P2PNotary:
+    Enabled: true
+{% if neogo__p2pnotary_unlock_wallet %}
+    UnlockWallet:
+      Path: "{{ neogo__p2pnotary_wallet_path }}"
+      Password: "{{ neogo__p2pnotary_wallet_pass }}"
 {% endif %}
 {% endif %}
 {% if neogo__prometheus_enabled | bool %}

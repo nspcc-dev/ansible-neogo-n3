@@ -109,6 +109,13 @@ neogo__oracle_wallet_path: "{{ neogo__conf_dir }}/wallet.oracle.json"
 neogo__oracle_wallet_pass: 'Th3r315N05p00n!'
 neogo__oracle_wallet_content: ''
 
+neogo__p2pnotary_enabled: False
+neogo__p2pnotary_allow_private: False
+neogo__p2pnotary_unlock_wallet: False
+neogo__p2pnotary_wallet_path: "{{ neogo__conf_dir }}/wallet.notary.json"
+neogo__p2pnotary_wallet_pass: 'Th3r315N05p00n!'
+neogo__p2pnotary_wallet_content: ''
+
 neogo__unlock_wallet: False
 neogo__wallet_path: "{{ neogo__conf_dir }}/wallet.json"
 neogo__wallet_pass: 'Th3r315N05p00n!'
@@ -122,7 +129,7 @@ neogo__bin_path: '/usr/local/bin/neo-go'
 
 # Systemd unit may use docker compose to run neo-go in container, instead of
 # local binary.
-neogo__use_compose: false
+neogo__use_compose: False
 
 # Neo Node configuration
 neogo__seconds_per_block: '15'
@@ -131,6 +138,8 @@ neogo__min_peers: "{{ (neogo__network == 'privnet')|ternary(0, 5) }}"
 neogo__max_peers: '100'
 neogo__low_priority_th: '0.001'
 
+neogo__stateroot_in_header_enabled: False
+neogo__p2psig_ext_enabled: False
 neogo__seed_list: "{{ neogo__network_opts[neogo__network].seed_list }}"
 neogo__standby_committee: "{{ neogo__network_opts[neogo__network].standby_committee }}"
 neogo__oracle_nodes: "{{ neogo__network_opts[neogo__network].oracle_nodes }}"
