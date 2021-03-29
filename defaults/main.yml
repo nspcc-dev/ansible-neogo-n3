@@ -59,9 +59,12 @@ neogo__network_opts:
     'seed_list':
       - '127.0.0.1:30333'
 
+# Default bind address
+neogo__bind_address: '0.0.0.0'
+
 # Ports and options for each service
 neogo__p2p_port: '{{ neogo__network_opts[neogo__network].p2p }}'
-neogo__p2p_address: '0.0.0.0'
+neogo__p2p_address: '{{ neogo__bind_address }}'
 neogo__p2p_allow: []
 neogo__p2p_group_allow: []
 neogo__p2p_host_allow: []
@@ -69,7 +72,7 @@ neogo__p2p_host_allow: []
 neogo__rpc_enabled: True
 neogo__rpc_cors_kludge: False
 neogo__rpc_port: '{{ neogo__network_opts[neogo__network].rpc }}'
-neogo__rpc_address: '0.0.0.0'
+neogo__rpc_address:  '{{ neogo__bind_address }}'
 # Same list will be used for TLS ports
 neogo__rpc_allow: []
 neogo__rpc_group_allow: []
@@ -78,20 +81,20 @@ neogo__rpc_host_allow: []
 # TLS requires RPC to be enabled
 neogo__tls_enabled: False
 neogo__tls_port: '{{ neogo__network_opts[neogo__network].tls }}'
-neogo__tls_address: '0.0.0.0'
+neogo__tls_address:  '{{ neogo__bind_address }}'
 neogo__tls_cert_path: "{{ neogo__conf_dir }}/server.crt"
 neogo__tls_key_path: "{{ neogo__conf_dir }}/server.key"
 
 neogo__prometheus_enabled: False
 neogo__prometheus_port: '2112'
-neogo__prometheus_address: '0.0.0.0'
+neogo__prometheus_address:  '{{ neogo__bind_address }}'
 neogo__prometheus_allow: []
 neogo__prometheus_group_allow: []
 neogo__prometheus_host_allow: []
 
 neogo__pprof_enabled: False
 neogo__pprof_port: '2113'
-neogo__pprof_address: '0.0.0.0'
+neogo__pprof_address:  '{{ neogo__bind_address }}'
 neogo__pprof_allow: []
 neogo__pprof_group_allow: []
 neogo__pprof_host_allow: []
