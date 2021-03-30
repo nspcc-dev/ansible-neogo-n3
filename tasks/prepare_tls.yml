@@ -7,6 +7,8 @@
     group: "{{ neogo__group }}"
     mode: '0640'
   when: neogo__tls_enabled | bool
+  notify:
+    - Restart neogo{{ neogo__instance }} service
 
 - name: Copy TLS key
   ansible.builtin.copy:
@@ -16,3 +18,5 @@
     group: "{{ neogo__group }}"
     mode: '0640'
   when: neogo__tls_enabled | bool
+  notify:
+    - Restart neogo{{ neogo__instance }} service
