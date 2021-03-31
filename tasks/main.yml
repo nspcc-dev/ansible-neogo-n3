@@ -49,7 +49,7 @@
 - include: prepare_tls.yml
   when: neogo__tls_enabled | bool
 
-- name: Prepare NeoGo config for {{ neogo__network }}
+- name: Prepare NeoGo config
   ansible.builtin.template:
     src: 'protocol.network.yml.j2'
     dest: "{{ neogo__conf_dir }}/protocol.{{ neogo__network }}.yml"
@@ -57,7 +57,7 @@
     group: "{{ neogo__group }}"
     mode: '0640'
   notify:
-    - Restart neogo{{ neogo__instance }} service
+    - Restart neogo service
 
 - name: Get uid for neo-go user
   ansible.builtin.getent:
@@ -69,7 +69,7 @@
     database: group
     key: "{{ neogo__group }}"
 
-- name: Prepare docker-compose for {{ neogo__network }}
+- name: Prepare docker-compose
   ansible.builtin.template:
     src: 'docker-compose.yml.j2'
     dest: "{{ neogo__conf_dir }}/docker-compose.yml"
@@ -78,7 +78,7 @@
     mode: '0640'
   when: neogo__use_compose | bool
   notify:
-    - Restart neogo{{ neogo__instance }} service
+    - Restart neogo service
 
 - name: Copy regular systemd unit file
   ansible.builtin.template:
@@ -86,7 +86,7 @@
     dest: "/etc/systemd/system/neogo{{ neogo__instance }}.service"
   when: not (neogo__use_compose | bool)
   notify:
-    - Restart neogo{{ neogo__instance }} service
+    - Restart neogo service
 
 - name: Copy Docker systemd unit file
   ansible.builtin.template:
@@ -94,7 +94,7 @@
     dest: "/etc/systemd/system/neogo{{ neogo__instance }}.service"
   when: neogo__use_compose | bool
   notify:
-    - Restart neogo{{ neogo__instance }} service
+    - Restart neogo service
 
 - name: Ensure NeoGo service runs
   ansible.builtin.systemd:
