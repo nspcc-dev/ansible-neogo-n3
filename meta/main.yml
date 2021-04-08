@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 galaxy_info:
-  role_name: 'neogo'
+  role_name: 'neogo-n3'
   namespace: 'nspcc'
   author: 'NSPCC Operations <ops@nspcc.ru>'
   description: 'N3 Blockchain node in Go'
