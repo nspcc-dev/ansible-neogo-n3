@@ -56,7 +56,7 @@ ApplicationConfiguration:
   Oracle:
     Enabled: true
     AllowPrivateHost: {{ neogo__oracle_allow_private }}
-    MaxTaskTimeout: 432000000
+    MaxTaskTimeout: 432000000s
     Nodes:
 {% for v in neogo__oracle_nodes %}
       - {{ v }}
