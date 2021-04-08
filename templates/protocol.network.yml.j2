@@ -31,7 +31,7 @@ ApplicationConfiguration:
   MaxPeers: {{ neogo__max_peers }}
   MinPeers: {{ neogo__min_peers }}
   AttemptConnPeers: 20
-{% if neogo__unlock_wallet | bool %}
+{% if neogo__wallet_unlock | bool %}
   UnlockWallet:
     Path: "{{ neogo__wallet_path }}"
     Password: "{{ neogo__wallet_pass }}"
@@ -66,7 +66,7 @@ ApplicationConfiguration:
 {% for v in neogo__oracle_neofs_nodes %}
         - {{ v }}
 {% endfor %}
-{% if neogo__oracle_unlock_wallet | bool %}
+{% if neogo__oracle_wallet_unlock | bool %}
     UnlockWallet:
       Path: "{{ neogo__oracle_wallet_path }}"
       Password: "{{ neogo__oracle_wallet_pass }}"
@@ -75,7 +75,7 @@ ApplicationConfiguration:
 {% if neogo__stateroot_enabled | bool %}
   StateRoot:
     Enabled: true
-{% if neogo__stateroot_unlock_wallet %}
+{% if neogo__stateroot_wallet_unlock %}
     UnlockWallet:
       Path: "{{ neogo__stateroot_wallet_path }}"
       Password: "{{ neogo__stateroot_wallet_pass }}"
@@ -84,7 +84,7 @@ ApplicationConfiguration:
 {% if neogo__p2pnotary_enabled | bool %}
   P2PNotary:
     Enabled: true
-{% if neogo__p2pnotary_unlock_wallet %}
+{% if neogo__p2pnotary_wallet_unlock %}
     UnlockWallet:
       Path: "{{ neogo__p2pnotary_wallet_path }}"
       Password: "{{ neogo__p2pnotary_wallet_pass }}"

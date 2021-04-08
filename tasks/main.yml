@@ -24,9 +24,9 @@
 
 - ansible.builtin.include: prepare_wallets.yml
   when: >
-    (neogo__unlock_wallet | bool) or
-    (neogo__stateroot_unlock_wallet | bool) or
-    (neogo__oracle_unlock_wallet | bool)
+    (neogo__wallet_unlock | bool) or
+    (neogo__stateroot_wallet_unlock | bool) or
+    (neogo__oracle_wallet_unlock | bool)
 
 - ansible.builtin.include: prepare_tls.yml
   when: neogo__tls_enabled | bool
