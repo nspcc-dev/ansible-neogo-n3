@@ -7,5 +7,5 @@
     url: "{{ neogo__bin_url }}"
     dest: "{{ neogo__bin_path }}"
     mode: '0755'
-    owner: 'root'
-    group: 'root'
+    owner: "{{ neogo__user }}"
+    group: "{{ neogo__group }}"
