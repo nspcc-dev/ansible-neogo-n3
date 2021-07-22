@@ -1,20 +1,32 @@
 ProtocolConfiguration:
   Magic: {{ neogo__magic }}
+  MaxTraceableBlocks: 2102400
+  InitialGASSupply: 52000000
   SecondsPerBlock: {{ neogo__seconds_per_block }}
   MemPoolSize: 50000
   StandbyCommittee:
 {% for v in neogo__standby_committee %}
-    - {{ v }}
+  - {{ v }}
 {% endfor %}
-  ValidatorsCount: {{ neogo__standby_committee|length }}
+  ValidatorsCount: {{ neogo__validators_count }}
   SeedList:
 {% for s in neogo__seed_list %}
-    - {{ s }}
+  - {{ s }}
 {% endfor %}
   VerifyBlocks: true
   VerifyTransactions: true
   P2PSigExtensions: {{ neogo__p2psig_ext_enabled }}
   StateRootInHeader: {{ neogo__stateroot_in_header_enabled }}
+  NativeActivations:
+    ContractManagement: [0]
+    StdLib: [0]
+    CryptoLib: [0]
+    LedgerContract: [0]
+    NeoToken: [0]
+    GasToken: [0]
+    PolicyContract: [0]
+    RoleManagement: [0]
+    OracleContract: [0]
 
 ApplicationConfiguration:
   DBConfiguration:
@@ -55,6 +67,8 @@ ApplicationConfiguration:
 {% if neogo__oracle_enabled | bool %}
   Oracle:
     Enabled: true
+    AllowedContentTypes:
+      - application/json
     AllowPrivateHost: {{ neogo__oracle_allow_private }}
     MaxTaskTimeout: 432000000s
     Nodes:

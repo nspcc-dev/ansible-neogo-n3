@@ -146,6 +146,7 @@ neogo__stateroot_in_header_enabled: False
 neogo__p2psig_ext_enabled: False
 neogo__seed_list: "{{ neogo__network_opts[neogo__network].seed_list }}"
 neogo__standby_committee: "{{ neogo__network_opts[neogo__network].standby_committee }}"
+neogo__validators_count: "{{ neogo__standby_committee|length }}"
 neogo__oracle_nodes: "{{ neogo__network_opts[neogo__network].oracle_nodes }}"
 neogo__oracle_neofs_nodes: ['127.0.0.1:8080']
 

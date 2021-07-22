@@ -19,7 +19,13 @@
     group: "{{ neogo__group }}"
     mode: '0750'
 
-- ansible.builtin.include: download_binary.yml
+- name: Download neo-go binary
+  ansible.builtin.get_url:
+    url: "{{ neogo__bin_url }}"
+    dest: "{{ neogo__bin_path }}"
+    mode: '0755'
+    owner: 'root'
+    group: 'root'
   when: not (neogo__use_compose | bool)
 
 - ansible.builtin.include: prepare_wallets.yml
@@ -28,8 +34,27 @@
     (neogo__stateroot_wallet_unlock | bool) or
     (neogo__oracle_wallet_unlock | bool)
 
-- ansible.builtin.include: prepare_tls.yml
+- name: Copy TLS certificate
+  ansible.builtin.copy:
+    src: "{{ neogo__tls_cert }}"
+    dest: "{{ neogo__tls_cert_path }}"
+    owner: 'root'
+    group: "{{ neogo__group }}"
+    mode: '0640'
   when: neogo__tls_enabled | bool
+  notify:
+    - Restart neogo service
+
+- name: Copy TLS key
+  ansible.builtin.copy:
+    src: "{{ neogo__tls_key }}"
+    dest: "{{ neogo__tls_key_path }}"
+    owner: 'root'
+    group: "{{ neogo__group }}"
+    mode: '0640'
+  when: neogo__tls_enabled | bool
+  notify:
+    - Restart neogo service
 
 - name: Prepare NeoGo config
   ansible.builtin.template:
