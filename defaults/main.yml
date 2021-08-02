@@ -54,6 +54,9 @@ neogo__network_opts:
       - 'seed4.neo.org:10333'
       - 'seed5.neo.org:10333'
     'oracle_nodes':
+      - 'http://oracle1.ngd.network:10332'
+      - 'http://oracle2.ngd.network:10332'
+      - 'http://oracle3.ngd.network:10332'
       - 'http://oracle.n3.nspcc.ru:10332'
   'testnet':
     'p2p': '20333'
