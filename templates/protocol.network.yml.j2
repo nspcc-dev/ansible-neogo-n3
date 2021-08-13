@@ -6,12 +6,12 @@ ProtocolConfiguration:
   MemPoolSize: 50000
   StandbyCommittee:
 {% for v in neogo__standby_committee %}
-  - {{ v }}
+    - {{ v }}
 {% endfor %}
   ValidatorsCount: {{ neogo__validators_count }}
   SeedList:
 {% for s in neogo__seed_list %}
-  - {{ s }}
+    - {{ s }}
 {% endfor %}
   VerifyBlocks: true
   VerifyTransactions: {{ neogo__verify_transactions | default('true') | bool }}
