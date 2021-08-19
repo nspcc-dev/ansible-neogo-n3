@@ -17,6 +17,7 @@ ProtocolConfiguration:
   VerifyTransactions: {{ neogo__verify_transactions | default('true') | bool }}
   P2PSigExtensions: {{ neogo__p2psig_ext_enabled }}
   StateRootInHeader: {{ neogo__stateroot_in_header_enabled }}
+{% if neogo__native_activations_enabled | bool %}
   NativeActivations:
     ContractManagement: [0]
     StdLib: [0]
@@ -27,6 +28,7 @@ ProtocolConfiguration:
     PolicyContract: [0]
     RoleManagement: [0]
     OracleContract: [0]
+{% endif %}
 
 ApplicationConfiguration:
   DBConfiguration:
