@@ -19,6 +19,7 @@ neogo__data_dir: '/var/lib/neogo{{ neogo__instance }}'
 # - privnet
 neogo__network: 'mainnet'
 
+# NativeActivations configuration section contains native contract names
 neogo__native_activations:
   - 'ContractManagement: [0]'
   - 'StdLib: [0]'
@@ -29,6 +30,7 @@ neogo__native_activations:
   - 'PolicyContract: [0]'
   - 'RoleManagement: [0]'
   - 'OracleContract: [0]'
+  - 'Notary: [0]'
 
 neogo__network_opts:
   'mainnet':
