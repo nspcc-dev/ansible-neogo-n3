@@ -172,7 +172,7 @@ neogo__wallet_pass: 'Th3r315N05p00n!'
 neogo__wallet_content: ''
 
 # NeoGo options
-neogo__version: '0.94.0'
+neogo__version: '0.97.2'
 neogo__docker_image: "nspccdev/neo-go:{{ neogo__version }}"
 neogo__bin_url: "https://github.com/nspcc-dev/neo-go/releases/download/v{{ neogo__version }}/neo-go-linux-amd64"
 neogo__bin_path: '/usr/local/bin/neo-go'

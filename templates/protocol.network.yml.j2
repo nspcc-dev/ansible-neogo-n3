@@ -20,7 +20,7 @@ ProtocolConfiguration:
 {% if neogo__native_activations is defined and neogo__native_activations|length > 0 %}
   NativeActivations:
 {% for activation in neogo__native_activations %}
-    - {{ activation }}
+    {{ activation }}
 {% endfor %}
 {% endif %}
 
