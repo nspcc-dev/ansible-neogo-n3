@@ -104,6 +104,7 @@
 - name: Ensure NeoGo service runs
   ansible.builtin.systemd:
     name: "neogo{{ neogo__instance }}.service"
-    state: 'started'
+    state: 'restarted'
     enabled: yes
     daemon_reload: yes
+    force: yes
