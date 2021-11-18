@@ -11,11 +11,21 @@
     group: "{{ neogo__group }}"
     mode: '0750'
 
+# this recursively creates configuration directory with root:root 755 permissions
 - name: Ensure configuration directory exists
   ansible.builtin.file:
     state: directory
     path: "{{ neogo__conf_dir }}"
-    owner: "root"
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+
+# this changes configuration directory permissions only
+- name: Ensure configuration directory permissions
+  ansible.builtin.file:
+    state: directory
+    path: "{{ neogo__conf_dir }}"
+    owner: 'root'
     group: "{{ neogo__group }}"
     mode: '0750'
 
