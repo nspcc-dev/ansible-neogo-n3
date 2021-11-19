@@ -75,7 +75,7 @@ neogo__network_opts:
     'p2p': '20333'
     'rpc': '20332'
     'tls': '20331'
-    'magic': '827601742'
+    'magic': '877933390'
     'standby_committee':
       - '023e9b32ea89b94d066e649b124fd50e396ee91369e8e2a6ae1b11c170d022256d'
       - '03009b7540e10f2562e5fd8fac9eaec25166a58b26e412348ff5a86927bfac22a2'
