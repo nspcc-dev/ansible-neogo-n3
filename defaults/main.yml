@@ -189,7 +189,7 @@ neogo__wallet_content: ''
 neogo__version: '0.97.2'
 neogo__docker_image: "nspccdev/neo-go:{{ neogo__version }}"
 neogo__bin_url: "https://github.com/nspcc-dev/neo-go/releases/download/v{{ neogo__version }}/neo-go-linux-amd64"
-neogo__bin_path: '/usr/local/bin/neo-go'
+neogo__bin_path: "/usr/bin/neogo{{ neogo__instance }}"
 
 # Systemd unit may use docker compose to run neo-go in container, instead of
 # local binary.
