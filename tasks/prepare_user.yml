@@ -3,17 +3,18 @@
 - name: Ensure there is neo-go group
   ansible.builtin.group:
     name: "{{ neogo__group }}"
-    system: True
+    system: yes
     state: 'present'
 
 - name: Ensure there is neo-go user
   ansible.builtin.user:
     name: "{{ neogo__user }}"
     group: "{{ neogo__group }}"
-    password: !
+    password: '*'
     shell: /usr/sbin/nologin
     home: "{{ neogo__data_dir }}"
-    system: True
+    system: yes
+    skeleton: no
     state: 'present'
 
 - name: Get uid for neo-go user
