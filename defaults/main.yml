@@ -155,7 +155,7 @@ neogo__prometheus_host_allow: []
 
 neogo__pprof_enabled: False
 neogo__pprof_port: '2113'
-neogo__pprof_address: '{{ neogo__bind_address }}'
+neogo__pprof_address: 'localhost'
 neogo__pprof_allow: []
 neogo__pprof_group_allow: []
 neogo__pprof_host_allow: []
