@@ -1,6 +1,6 @@
 ---
 
-- name: Prepare Neo Wallet
+- name: Copy wallet
   ansible.builtin.copy:
     dest: "{{ neogo__wallet_path }}"
     content: "{{ neogo__wallet_content | to_nice_json(ensure_ascii=False) }}"
@@ -10,8 +10,10 @@
   when: >
     (neogo__wallet_content is defined) and
     (neogo__wallet_content|length > 0)
+  notify:
+    - Restart NeoGo service
 
-- name: Prepare Neo Wallet for Stateroot validator
+- name: Copy stateroot validator wallet
   ansible.builtin.copy:
     dest: "{{ neogo__stateroot_wallet_path }}"
     content: "{{ neogo__stateroot_wallet_content | to_nice_json(ensure_ascii=False) }}"
@@ -21,8 +23,10 @@
   when: >
     (neogo__stateroot_wallet_content is defined) and
     (neogo__stateroot_wallet_content|length > 0)
+  notify:
+    - Restart NeoGo service
 
-- name: Prepare Neo Wallet for Oracle
+- name: Copy oracle wallet
   ansible.builtin.copy:
     dest: "{{ neogo__oracle_wallet_path }}"
     content: "{{ neogo__oracle_wallet_content | to_nice_json(ensure_ascii=False) }}"
@@ -32,8 +36,10 @@
   when: >
     (neogo__oracle_wallet_content is defined) and
     (neogo__oracle_wallet_content|length > 0)
+  notify:
+    - Restart NeoGo service
 
-- name: Prepare Neo Wallet for Notary service
+- name: Copy notary service wallet
   ansible.builtin.copy:
     dest: "{{ neogo__p2pnotary_wallet_path }}"
     content: "{{ neogo__p2pnotary_wallet_content | to_nice_json(ensure_ascii=False) }}"
@@ -43,3 +49,5 @@
   when: >
     (neogo__p2pnotary_wallet_content is defined) and
     (neogo__p2pnotary_wallet_content|length > 0)
+  notify:
+    - Restart NeoGo service

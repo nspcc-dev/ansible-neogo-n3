@@ -1,0 +1,19 @@
+---
+
+- name: Copy TLS key & certificate
+  block:
+    - ansible.builtin.copy:
+        src: "{{ neogo__tls_key }}"
+        dest: "{{ neogo__tls_key_path }}"
+        owner: 'root'
+        group: "{{ neogo__group }}"
+        mode: '0640'
+    - ansible.builtin.copy:
+        src: "{{ neogo__tls_cert }}"
+        dest: "{{ neogo__tls_cert_path }}"
+        owner: 'root'
+        group: "{{ neogo__group }}"
+        mode: '0640'
+  when: neogo__tls_enabled | bool
+  notify:
+    - Restart NeoGo service

@@ -1,15 +1,6 @@
 ---
 
-# Prepare system
-- ansible.builtin.include: 'prepare_user.yml'
-
-- name: Ensure data directory exists
-  ansible.builtin.file:
-    state: directory
-    path: "{{ neogo__data_dir }}"
-    owner: "{{ neogo__user }}"
-    group: "{{ neogo__group }}"
-    mode: '0750'
+- ansible.builtin.include_tasks: 'user.yml'
 
 - name: Create configuration directory parent
   ansible.builtin.file:
@@ -27,44 +18,13 @@
     group: "{{ neogo__group }}"
     mode: '0750'
 
-- name: Download neo-go binary
-  ansible.builtin.get_url:
-    url: "{{ neogo__bin_url }}"
-    dest: "{{ neogo__bin_path }}"
-    mode: '0755'
-    owner: 'root'
-    group: 'root'
-  when: not (neogo__use_compose | bool)
+- ansible.builtin.include_tasks: 'binary.yml'
 
-- ansible.builtin.include: prepare_wallets.yml
-  when: >
-    (neogo__wallet_unlock | bool) or
-    (neogo__stateroot_wallet_unlock | bool) or
-    (neogo__oracle_wallet_unlock | bool)
+- ansible.builtin.include_tasks: 'wallet.yml'
 
-- name: Copy TLS certificate
-  ansible.builtin.copy:
-    src: "{{ neogo__tls_cert }}"
-    dest: "{{ neogo__tls_cert_path }}"
-    owner: 'root'
-    group: "{{ neogo__group }}"
-    mode: '0640'
-  when: neogo__tls_enabled | bool
-  notify:
-    - Restart neogo service
+- ansible.builtin.include_tasks: 'tls.yml'
 
-- name: Copy TLS key
-  ansible.builtin.copy:
-    src: "{{ neogo__tls_key }}"
-    dest: "{{ neogo__tls_key_path }}"
-    owner: 'root'
-    group: "{{ neogo__group }}"
-    mode: '0640'
-  when: neogo__tls_enabled | bool
-  notify:
-    - Restart neogo service
-
-- name: Prepare NeoGo config
+- name: Copy NeoGo config
   ansible.builtin.template:
     src: 'protocol.network.yml.j2'
     dest: "{{ neogo__conf_dir }}/protocol.{{ neogo__network }}.yml"
@@ -72,9 +32,9 @@
     group: "{{ neogo__group }}"
     mode: '0640'
   notify:
-    - Restart neogo service
+    - Restart NeoGo service
 
-- name: Prepare docker-compose
+- name: Copy compose file
   ansible.builtin.template:
     src: 'docker-compose.yml.j2'
     dest: "{{ neogo__conf_dir }}/docker-compose.yml"
@@ -83,23 +43,23 @@
     mode: '0640'
   when: neogo__use_compose | bool
   notify:
-    - Restart neogo service
+    - Restart NeoGo service
 
-- name: Copy regular systemd unit file
+- name: Copy regular systemd unit
   ansible.builtin.template:
     src: "neogo-n3.service.bin.j2"
     dest: "/etc/systemd/system/neogo{{ neogo__instance }}.service"
   when: not (neogo__use_compose | bool)
   notify:
-    - Restart neogo service
+    - Restart NeoGo service
 
-- name: Copy Docker systemd unit file
+- name: Copy dockerized systemd unit
   ansible.builtin.template:
     src: "neogo-n3.service.compose.j2"
     dest: "/etc/systemd/system/neogo{{ neogo__instance }}.service"
   when: neogo__use_compose | bool
   notify:
-    - Restart neogo service
+    - Restart NeoGo service
 
 - name: Force debops.ferm run
   ansible.builtin.include_role:
@@ -108,11 +68,3 @@
     ferm__dependent_rules:
       - "{{ neogo__ferm__dependent_rules }}"
   when: neogo__debops_ferm_import | bool
-
-- name: Ensure NeoGo service runs
-  ansible.builtin.systemd:
-    name: "neogo{{ neogo__instance }}.service"
-    state: 'restarted'
-    enabled: yes
-    daemon_reload: yes
-    force: yes
