@@ -4,9 +4,9 @@
   ansible.builtin.get_url:
     url: "{{ neogo__bin_url }}"
     dest: "{{ neogo__bin_path }}"
-    mode: '0755'
+    force: yes
     owner: 'root'
     group: 'root'
+    mode: '0755'
   when: not (neogo__use_compose | bool)
-  notify:
-    - Restart NeoGo service
+  notify: [ 'Restart NeoGo service' ]
