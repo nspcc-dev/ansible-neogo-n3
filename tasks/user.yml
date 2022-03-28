@@ -4,18 +4,16 @@
   ansible.builtin.group:
     name: "{{ neogo__group }}"
     system: yes
-    state: 'present'
 
 - name: Create NeoGo user
   ansible.builtin.user:
     name: "{{ neogo__user }}"
     group: "{{ neogo__group }}"
     password: '*'
-    shell: /usr/sbin/nologin
+    shell: '/usr/sbin/nologin'
     home: "{{ neogo__data_dir }}"
     system: yes
     skeleton: no
-    state: 'present'
 
 - name: Get UID for NeoGo user
   ansible.builtin.getent:

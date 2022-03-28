@@ -117,7 +117,7 @@ neogo__network_opts:
     'standby_committee':
       - '02b3622bf4017bdfe317c58aed5f4c753f206b7db896046fa7d774bbc4bf7f8dc2'
     'seed_list':
-      - '127.0.0.1:30333'
+      - 'localhost:30333'
     'oracle_nodes': []
 
 # Default bind address
@@ -209,7 +209,7 @@ neogo__standby_committee: "{{ neogo__network_opts[neogo__network].standby_commit
 neogo__validators_count: '7'
 neogo__verify_transactions: False
 neogo__oracle_nodes: "{{ neogo__network_opts[neogo__network].oracle_nodes }}"
-neogo__oracle_neofs_nodes: ['127.0.0.1:8080']
+neogo__oracle_neofs_nodes: ['localhost:8080']
 
 # Force debops.ferm run via role import
 # May be useful when you need to have multiple instances with different

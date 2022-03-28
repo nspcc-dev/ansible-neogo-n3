@@ -4,50 +4,46 @@
   ansible.builtin.copy:
     dest: "{{ neogo__wallet_path }}"
     content: "{{ neogo__wallet_content | to_nice_json(ensure_ascii=False) }}"
-    owner: "{{ neogo__user }}"
+    owner: 'root'
     group: "{{ neogo__group }}"
     mode: '0640'
   when: >
     (neogo__wallet_content is defined) and
     (neogo__wallet_content|length > 0)
-  notify:
-    - Restart NeoGo service
+  notify: [ 'Restart NeoGo service' ]
 
 - name: Copy stateroot validator wallet
   ansible.builtin.copy:
     dest: "{{ neogo__stateroot_wallet_path }}"
     content: "{{ neogo__stateroot_wallet_content | to_nice_json(ensure_ascii=False) }}"
-    owner: "{{ neogo__user }}"
+    owner: 'root'
     group: "{{ neogo__group }}"
     mode: '0640'
   when: >
     (neogo__stateroot_wallet_content is defined) and
     (neogo__stateroot_wallet_content|length > 0)
-  notify:
-    - Restart NeoGo service
+  notify: [ 'Restart NeoGo service' ]
 
 - name: Copy oracle wallet
   ansible.builtin.copy:
     dest: "{{ neogo__oracle_wallet_path }}"
     content: "{{ neogo__oracle_wallet_content | to_nice_json(ensure_ascii=False) }}"
-    owner: "{{ neogo__user }}"
+    owner: 'root'
     group: "{{ neogo__group }}"
     mode: '0640'
   when: >
     (neogo__oracle_wallet_content is defined) and
     (neogo__oracle_wallet_content|length > 0)
-  notify:
-    - Restart NeoGo service
+  notify: [ 'Restart NeoGo service' ]
 
 - name: Copy notary service wallet
   ansible.builtin.copy:
     dest: "{{ neogo__p2pnotary_wallet_path }}"
     content: "{{ neogo__p2pnotary_wallet_content | to_nice_json(ensure_ascii=False) }}"
-    owner: "{{ neogo__user }}"
+    owner: 'root'
     group: "{{ neogo__group }}"
     mode: '0640'
   when: >
     (neogo__p2pnotary_wallet_content is defined) and
     (neogo__p2pnotary_wallet_content|length > 0)
-  notify:
-    - Restart NeoGo service
+  notify: [ 'Restart NeoGo service' ]
