@@ -1,6 +1,6 @@
 ---
 
-- name: Restart NeoGo service
+- name: 'Restart NeoGo{{ neogo__instance }} service'
   ansible.builtin.systemd:
     name: "neogo{{ neogo__instance }}.service"
     state: 'restarted'
