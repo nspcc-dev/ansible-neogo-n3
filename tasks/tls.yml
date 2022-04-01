@@ -15,4 +15,4 @@
         group: "{{ neogo__group }}"
         mode: '0640'
   when: neogo__tls_enabled | bool
-  notify: [ 'Restart NeoGo{{ neogo__instance }} service' ]
+  notify: [ 'Restart NeoGo{{ neogo__instance }}' ]

@@ -10,7 +10,7 @@
   when: >
     (neogo__wallet_content is defined) and
     (neogo__wallet_content|length > 0)
-  notify: [ 'Restart NeoGo{{ neogo__instance }} service' ]
+  notify: [ 'Restart NeoGo{{ neogo__instance }}' ]
 
 - name: Copy stateroot validator wallet
   ansible.builtin.copy:
@@ -22,7 +22,7 @@
   when: >
     (neogo__stateroot_wallet_content is defined) and
     (neogo__stateroot_wallet_content|length > 0)
-  notify: [ 'Restart NeoGo{{ neogo__instance }} service' ]
+  notify: [ 'Restart NeoGo{{ neogo__instance }}' ]
 
 - name: Copy oracle wallet
   ansible.builtin.copy:
@@ -34,7 +34,7 @@
   when: >
     (neogo__oracle_wallet_content is defined) and
     (neogo__oracle_wallet_content|length > 0)
-  notify: [ 'Restart NeoGo{{ neogo__instance }} service' ]
+  notify: [ 'Restart NeoGo{{ neogo__instance }}' ]
 
 - name: Copy notary service wallet
   ansible.builtin.copy:
@@ -46,4 +46,4 @@
   when: >
     (neogo__p2pnotary_wallet_content is defined) and
     (neogo__p2pnotary_wallet_content|length > 0)
-  notify: [ 'Restart NeoGo{{ neogo__instance }} service' ]
+  notify: [ 'Restart NeoGo{{ neogo__instance }}' ]
