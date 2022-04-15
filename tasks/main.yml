@@ -45,14 +45,14 @@
 
 - name: Copy regular systemd unit
   ansible.builtin.template:
-    src: "neogo-n3.service.bin.j2"
+    src: "neogo-n3.service.j2"
     dest: "/etc/systemd/system/neogo{{ neogo__instance }}.service"
   when: not (neogo__use_compose | bool)
   notify: [ 'Restart NeoGo{{ neogo__instance }}' ]
 
 - name: Copy dockerized systemd unit
   ansible.builtin.template:
-    src: "neogo-n3.service.compose.j2"
+    src: "neogo-n3_compose.service.j2"
     dest: "/etc/systemd/system/neogo{{ neogo__instance }}.service"
   when: neogo__use_compose | bool
   notify: [ 'Restart NeoGo{{ neogo__instance }}' ]
