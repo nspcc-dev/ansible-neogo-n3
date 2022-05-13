@@ -6,7 +6,7 @@ galaxy_info:
   role_name: 'neogo-n3'
   namespace: 'nspcc'
   author: 'NSPCC Operations <ops@nspcc.ru>'
-  description: 'N3 Blockchain node in Go'
+  description: 'Neo N3 Blockchain node in Go'
   company: 'NSPCC'
   license: 'GPL-3.0-or-later'
   min_ansible_version: '2.10.0'
@@ -17,7 +17,6 @@ galaxy_info:
         - buster
   galaxy_tags:
     - neo
-    - blockchain
-    - n3
     - neogo
+    - blockchain
 dependencies: []
