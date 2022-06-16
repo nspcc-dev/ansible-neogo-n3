@@ -23,6 +23,13 @@ ProtocolConfiguration:
     {{ activation }}
 {% endfor %}
 {% endif %}
+{% if neogo__hardforks is defined and neogo__hardforks|length > 0 %}
+  Hardforks:
+{% for hardfork in neogo__hardforks %}
+    {{ hardfork }}
+{% endfor %}
+{% endif %}
+   
 
 ApplicationConfiguration:
   DBConfiguration:
