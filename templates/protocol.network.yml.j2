@@ -1,9 +1,11 @@
+---
+
 ProtocolConfiguration:
   Magic: {{ neogo__magic }}
-  MaxTraceableBlocks: 2102400
-  InitialGASSupply: 52000000
+  MaxTraceableBlocks: {{ neogo__max_traceable_blocks }}
+  InitialGASSupply: {{ neogo__initial_gas_supply }}
   SecondsPerBlock: {{ neogo__seconds_per_block }}
-  MemPoolSize: 50000
+  MemPoolSize: {{ neogo__mem_pool_size }}
   StandbyCommittee:
 {% for v in neogo__standby_committee %}
     - {{ v }}
@@ -19,33 +21,45 @@ ProtocolConfiguration:
   StateRootInHeader: {{ neogo__stateroot_in_header_enabled }}
 {% if neogo__native_activations is defined and neogo__native_activations|length > 0 %}
   NativeActivations:
-{% for activation in neogo__native_activations %}
-    {{ activation }}
+{% for activation, set in neogo__native_activations.items() %}
+    {{ activation }}: {{ set }}
 {% endfor %}
 {% endif %}
 {% if neogo__hardforks is defined and neogo__hardforks|length > 0 %}
   Hardforks:
-{% for hardfork in neogo__hardforks %}
-    {{ hardfork }}
+{% for hardfork, height in neogo__hardforks.items() %}
+    {{ hardfork }}: {{ height }}
 {% endfor %}
 {% endif %}
-   
+{% if neogo__dbft_watchdog_enabled %}
+  EnableDBFTWatchdog: true
+  DBFTWatchdogThresholdMultiplier: {{ neogo__dbft_watchdog_threshold_multiplier }}
+{% endif %}
+
 
 ApplicationConfiguration:
+{% if neogo__db_logfile is defined and neogo__db_logfile|length > 0 %}
+  LogPath: {{ neogo__db_logfile }}
+{% endif %}
   DBConfiguration:
-    Type: "leveldb"
+    Type: "{{ neogo__db_type }}"
+{% if neogo__db_type == 'leveldb' %}
     LevelDBOptions:
       DataDirectoryPath: "{{ neogo__data_dir }}"
+{% elif neogo__db_type == 'boltdb' %}
+    BoltDBOptions:
+      FilePath: "{{ neogo__data_dir }}/{{ neogo__network }}.bolt"
+{% endif %}
   Address: {{ neogo__p2p_address }}
   NodePort: {{ neogo__p2p_port }}
-  Relay: true
-  DialTimeout: 3
-  ProtoTickInterval: 2
-  PingInterval: 30
-  PingTimeout: 90
+  Relay: {{ neogo__relay }}
+  DialTimeout: {{ neogo__dial_timeout }}
+  ProtoTickInterval: {{ neogo__proto_tick_interval }}
+  PingInterval: {{ neogo__ping_interval }}
+  PingTimeout: {{ neogo__ping_timeout }}
   MaxPeers: {{ neogo__max_peers }}
   MinPeers: {{ neogo__min_peers }}
-  AttemptConnPeers: 20
+  AttemptConnPeers: {{ neogo__attempt_conn_peers }}
 {% if neogo__wallet_unlock | bool %}
   UnlockWallet:
     Path: "{{ neogo__wallet_path }}"
@@ -54,7 +68,7 @@ ApplicationConfiguration:
 {% if neogo__rpc_enabled | bool %}
   RPC:
     Enabled: true
-    MaxGasInvoke: 100
+    MaxGasInvoke: {{ neogo__rpc_max_gas_invoke }}
     EnableCORSWorkaround: {{ neogo__rpc_cors_kludge }}
     Address: {{ neogo__rpc_address }}
     Port: {{ neogo__rpc_port }}
@@ -70,18 +84,17 @@ ApplicationConfiguration:
 {% if neogo__oracle_enabled | bool %}
   Oracle:
     Enabled: true
-    AllowedContentTypes:
-      - application/json
+    AllowedContentTypes: {{ neogo__oracle_allowed_content_types }}
     AllowPrivateHost: {{ neogo__oracle_allow_private }}
-    MaxTaskTimeout: 432000000s
+    MaxTaskTimeout: {{ neogo__oracle_max_task_timeout }}
     Nodes:
-{% for v in neogo__oracle_nodes %}
-      - {{ v }}
+{% for node in neogo__oracle_nodes %}
+      - {{ node }}
 {% endfor %}
     NeoFS:
       Nodes:
-{% for v in neogo__oracle_neofs_nodes %}
-        - {{ v }}
+{% for node in neogo__oracle_neofs_nodes %}
+        - {{ node }}
 {% endfor %}
 {% if neogo__oracle_wallet_unlock | bool %}
     UnlockWallet:
