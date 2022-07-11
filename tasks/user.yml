@@ -2,25 +2,25 @@
 
 - name: Create NeoGo group
   ansible.builtin.group:
-    name: "{{ neogo__group }}"
+    name: '{{ neogo__group }}'
     system: yes
 
 - name: Create NeoGo user
   ansible.builtin.user:
-    name: "{{ neogo__user }}"
-    group: "{{ neogo__group }}"
+    name: '{{ neogo__user }}'
+    group: '{{ neogo__group }}'
     password: '*'
     shell: '/usr/sbin/nologin'
-    home: "{{ neogo__data_dir }}"
+    home: '{{ neogo__data_dir }}'
     system: yes
     skeleton: no
 
 - name: Get UID for NeoGo user
   ansible.builtin.getent:
     database: passwd
-    key: "{{ neogo__user }}"
+    key: '{{ neogo__user }}'
 
 - name: Get GID for NeoGo user
   ansible.builtin.getent:
     database: group
-    key: "{{ neogo__group }}"
+    key: '{{ neogo__group }}'

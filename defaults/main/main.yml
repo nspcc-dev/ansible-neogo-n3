@@ -1,0 +1,267 @@
+---
+
+neogo__version: '0.99.0'
+neogo__bin_url: 'https://github.com/nspcc-dev/neo-go/releases/download/v{{ neogo__version }}/neo-go-linux-amd64'
+neogo__docker_image: 'nspccdev/neo-go:{{ neogo__version }}'
+
+# Instance name to have multiple neo-go nodes on the same host
+neogo__instance: ''
+
+neogo__user: 'neogo{{ neogo__instance }}'
+neogo__group: 'neogo{{ neogo__instance }}'
+
+neogo__conf_dir: '/etc/neogo{{ neogo__instance }}'
+# Directory for chain database, snapshots and thing alike
+neogo__data_dir: '/var/lib/neogo{{ neogo__instance }}'
+neogo__bin_path: '/usr/bin/neogo{{ neogo__instance }}'
+
+# Available N3 networks: mainnet, testnet, privnet
+neogo__network: 'mainnet'
+
+neogo__wallet_path: '{{ neogo__conf_dir }}/wallet.json'
+neogo__wallet_passwd: ''
+neogo__wallet_content: ''
+
+neogo__stateroot_enabled: False
+neogo__stateroot_wallet_path: '{{ neogo__conf_dir }}/wallet.stateroot.json'
+neogo__stateroot_wallet_passwd: ''
+neogo__stateroot_wallet_content: ''
+
+neogo__oracle_enabled: False
+neogo__oracle_wallet_path: '{{ neogo__conf_dir }}/wallet.oracle.json'
+neogo__oracle_wallet_passwd: ''
+neogo__oracle_wallet_content: ''
+
+neogo__p2pnotary_enabled: False
+neogo__p2pnotary_wallet_path: '{{ neogo__conf_dir }}/wallet.notary.json'
+neogo__p2pnotary_wallet_passwd: ''
+neogo__p2pnotary_wallet_content: ''
+
+# Default bind address
+neogo__bind_address: '0.0.0.0'
+
+# Ports and options for each service
+neogo__p2p_address: '{{ neogo__bind_address }}'
+neogo__p2p_port: '{{ neogo__network_opts[neogo__network].p2p }}'
+neogo__p2p_allow: []
+neogo__p2p_group_allow: []
+neogo__p2p_host_allow: []
+
+neogo__rpc_enabled: True
+neogo__rpc_address: '{{ neogo__bind_address }}'
+neogo__rpc_port: '{{ neogo__network_opts[neogo__network].rpc }}'
+# Same list will be used for TLS ports
+neogo__rpc_allow: []
+neogo__rpc_group_allow: []
+neogo__rpc_host_allow: []
+
+# TLS requires RPC to be enabled
+neogo__tls_enabled: False
+neogo__tls_address: '{{ neogo__bind_address }}'
+neogo__tls_port: '{{ neogo__network_opts[neogo__network].tls | d() }}'
+neogo__tls_cert_file: '{{ neogo__conf_dir }}/server.crt'
+neogo__tls_key_file: '{{ neogo__conf_dir }}/server.key'
+
+neogo__metrics_enabled: False
+neogo__metrics_address: 'localhost'
+neogo__metrics_port: 2112
+neogo__metrics_allow: []
+neogo__metrics_group_allow: []
+neogo__metrics_host_allow: []
+
+neogo__pprof_enabled: False
+neogo__pprof_address: 'localhost'
+neogo__pprof_port: 2113
+neogo__pprof_allow: []
+neogo__pprof_group_allow: []
+neogo__pprof_host_allow: []
+
+
+neogo__raw_config:
+  ProtocolConfiguration:
+    Magic: '{{ neogo__network_opts[neogo__network].magic }}'
+    MaxTraceableBlocks: 2102400
+    InitialGASSupply: 52000000
+    SecondsPerBlock: 15
+    MemPoolSize: 50000
+    StandbyCommittee: '{{ neogo__network_opts[neogo__network].standby_committee }}'
+    ValidatorsCount: 7
+    SeedList: '{{ neogo__network_opts[neogo__network].seed_list }}'
+    VerifyBlocks: true
+    VerifyTransactions: False
+    P2PSigExtensions: False
+    StateRootInHeader: False
+    NativeActivations:
+      ContractManagement: [0]
+      StdLib: [0]
+      CryptoLib: [0]
+      LedgerContract: [0]
+      NeoToken: [0]
+      GasToken: [0]
+      PolicyContract: [0]
+      RoleManagement: [0]
+      OracleContract: [0]
+      Notary: [0]
+
+  ApplicationConfiguration:
+    Address: '{{ neogo__p2p_address }}'
+    NodePort: '{{ neogo__p2p_port }}'
+    Relay: True
+    DialTimeout: 3
+    ProtoTickInterval: 2
+    PingInterval: 30
+    PingTimeout: 90
+    MaxPeers: 100
+    MinPeers: "{{ (neogo__network == 'privnet')|ternary(0, 5) }}"
+    AttemptConnPeers: 20
+    UnlockWallet:
+      Path: '{{ neogo__wallet_path }}'
+      Password: '{{ neogo__wallet_passwd }}'
+    DBConfiguration:
+      Type: 'boltdb'
+      BoltDBOptions:
+        FilePath: '{{ neogo__data_dir }}/{{ neogo__network }}.bolt'
+
+neogo__default_config:
+  - enabled: "{{ 'hardforks' in neogo__network_opts[neogo__network] and neogo__network_opts[neogo__network].hardforks|length }}"
+    path: ProtocolConfiguration
+    options:
+      Hardforks: '{{ neogo__network_opts[neogo__network].hardforks | d({}) }}'
+
+  - enabled: '{{ neogo__rpc_enabled }}'
+    path: ApplicationConfiguration
+    options:
+      RPC:
+        Enabled: True
+        MaxGasInvoke: 100
+        EnableCORSWorkaround: False
+        Address: '{{ neogo__rpc_address }}'
+        Port: '{{ neogo__rpc_port }}'
+
+  - enabled: '{{ neogo__rpc_enabled and neogo__tls_enabled }}'
+    path: ApplicationConfiguration
+    options:
+      RPC:
+        TLSConfig:
+          Enabled: True
+          Address: '{{ neogo__tls_address }}'
+          Port: '{{ neogo__tls_port }}'
+          CertFile: '{{ neogo__tls_cert_file }}'
+          KeyFile: '{{ neogo__tls_key_file }}'
+
+  - enabled: '{{ neogo__oracle_enabled }}'
+    path: ApplicationConfiguration
+    options:
+      Oracle:
+        Enabled: True
+        AllowedContentTypes: [ 'application/json' ]
+        AllowPrivateHost: False
+        MaxTaskTimeout: '432000000s'
+        Nodes: '{{ neogo__network_opts[neogo__network].oracle_nodes | d(omit) }}'
+        NeoFS:
+          Nodes: [ 'localhost:8080' ]
+        UnlockWallet:
+          Path: '{{ neogo__oracle_wallet_path }}'
+          Password: '{{ neogo__oracle_wallet_passwd }}'
+
+  - enabled: '{{ neogo__stateroot_enabled }}'
+    path: ApplicationConfiguration
+    options:
+      StateRoot:
+        Enabled: True
+        UnlockWallet:
+          Path: '{{ neogo__stateroot_wallet_path }}'
+          Password: '{{ neogo__stateroot_wallet_passwd }}'
+
+  - enabled: '{{ neogo__p2pnotary_enabled }}'
+    path: ApplicationConfiguration
+    options:
+      P2PNotary:
+        Enabled: True
+        UnlockWallet:
+          Path: '{{ neogo__p2pnotary_wallet_path }}'
+          Password: '{{ neogo__p2pnotary_wallet_passwd }}'
+
+  - enabled: '{{ neogo__metrics_enabled }}'
+    path: ApplicationConfiguration
+    options:
+      Prometheus:
+        Enabled: True
+        Address: '{{ neogo__metrics_address }}'
+        Port: '{{ neogo__metrics_port }}'
+
+  - enabled: '{{ neogo__pprof_enabled }}'
+    path: ApplicationConfiguration
+    options:
+      Pprof:
+        Enabled: True
+        Address: '{{ neogo__pprof_address }}'
+        Port: '{{ neogo__pprof_port }}'
+
+neogo__config: []
+neogo__group_config: []
+neogo__host_config: []
+
+neogo__combined_config: '{{ 
+  neogo__default_config + 
+  neogo__config + 
+  neogo__group_config +
+  neogo__host_config }}'
+
+
+
+# Systemd unit may use docker compose to run neo-go in container, instead of
+# local binary.
+neogo__use_compose: False
+
+# Force debops.ferm run via role import
+# May be useful when you need to have multiple instances with different
+# firewall rules for each one.
+neogo__debops_ferm_import: False
+
+# firewall configuration to be applied with debops.ferm role
+neogo__ferm__dependent_rules:
+  - type: 'accept'
+    name: 'neogo{{ neogo__instance }}_p2p'
+    dport: [ '{{ neogo__p2p_port }}' ]
+    daddr: [ '{{ neogo__p2p_address }}' ]
+    saddr: '{{ neogo__p2p_allow + neogo__p2p_group_allow + neogo__p2p_host_allow }}'
+    protocol: 'tcp'
+    role: 'neogo-n3'
+    rule_state: 'present'
+
+  - type: 'accept'
+    name: 'neogo{{ neogo__instance }}_rpc'
+    dport: [ '{{ neogo__rpc_port }}' ]
+    daddr: [ '{{ neogo__rpc_address }}' ]
+    saddr: '{{ neogo__rpc_allow + neogo__rpc_group_allow + neogo__rpc_host_allow }}'
+    protocol: 'tcp'
+    role: 'neogo-n3'
+    rule_state: "{{ 'present' if neogo__rpc_enabled else 'absent' }}"
+
+  - type: 'accept'
+    name: 'neogo{{ neogo__instance }}_tls'
+    dport: [ '{{ neogo__tls_port }}' ]
+    daddr: [ '{{ neogo__tls_address }}' ]
+    saddr: '{{ neogo__rpc_allow + neogo__rpc_group_allow + neogo__rpc_host_allow }}'
+    protocol: 'tcp'
+    role: 'neogo-n3'
+    rule_state: "{{ 'present' if neogo__tls_enabled else 'absent' }}"
+
+  - type: 'accept'
+    name: 'neogo{{ neogo__instance }}_metrics'
+    dport: [ '{{ neogo__metrics_port }}' ]
+    daddr: [ '{{ neogo__metrics_address }}' ]
+    saddr: '{{ neogo__metrics_allow + neogo__metrics_group_allow + neogo__metrics_host_allow }}'
+    protocol: 'tcp'
+    role: 'neogo-n3'
+    rule_state: "{{ 'present' if neogo__metrics_enabled else 'absent' }}"
+
+  - type: 'accept'
+    name: 'neogo{{ neogo__instance }}_pprof'
+    dport: [ '{{ neogo__pprof_port }}' ]
+    daddr: [ '{{ neogo__pprof_address }}' ]
+    saddr: '{{ neogo__pprof_allow + neogo__pprof_group_allow + neogo__pprof_host_allow }}'
+    protocol: 'tcp'
+    role: 'neogo-n3'
+    rule_state: "{{ 'present' if neogo__pprof_enabled else 'absent' }}"
