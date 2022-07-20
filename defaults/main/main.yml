@@ -79,14 +79,11 @@ neogo__pprof_host_allow: []
 
 neogo__raw_config:
   ProtocolConfiguration:
-    Magic: '{{ neogo__network_opts[neogo__network].magic }}'
     MaxTraceableBlocks: 2102400
+    MemPoolSize: 50000
     InitialGASSupply: 52000000
     SecondsPerBlock: 15
-    MemPoolSize: 50000
-    StandbyCommittee: '{{ neogo__network_opts[neogo__network].standby_committee }}'
     ValidatorsCount: 7
-    SeedList: '{{ neogo__network_opts[neogo__network].seed_list }}'
     VerifyBlocks: true
     VerifyTransactions: False
     P2PSigExtensions: False
@@ -112,21 +109,20 @@ neogo__raw_config:
     PingInterval: 30
     PingTimeout: 90
     MaxPeers: 100
-    MinPeers: "{{ (neogo__network == 'privnet')|ternary(0, 5) }}"
+    MinPeers: 4
     AttemptConnPeers: 20
-    UnlockWallet:
-      Path: '{{ neogo__wallet_path }}'
-      Password: '{{ neogo__wallet_passwd }}'
     DBConfiguration:
       Type: 'boltdb'
       BoltDBOptions:
         FilePath: '{{ neogo__data_dir }}/{{ neogo__network }}.bolt'
 
 neogo__default_config:
-  - enabled: "{{ 'hardforks' in neogo__network_opts[neogo__network] and neogo__network_opts[neogo__network].hardforks|length }}"
-    path: ProtocolConfiguration
+  - enabled: '{{ neogo__wallet_content|length > 0 }}'
+    path: ApplicationConfiguration
     options:
-      Hardforks: '{{ neogo__network_opts[neogo__network].hardforks | d({}) }}'
+      UnlockWallet:
+        Path: '{{ neogo__wallet_path }}'
+        Password: '{{ neogo__wallet_passwd }}'
 
   - enabled: '{{ neogo__rpc_enabled }}'
     path: ApplicationConfiguration
@@ -157,9 +153,8 @@ neogo__default_config:
         AllowedContentTypes: [ 'application/json' ]
         AllowPrivateHost: False
         MaxTaskTimeout: '432000000s'
-        Nodes: '{{ neogo__network_opts[neogo__network].oracle_nodes | d(omit) }}'
-        NeoFS:
-          Nodes: [ 'localhost:8080' ]
+#        NeoFS:
+#          Nodes: [ 'localhost:8080' ]
         UnlockWallet:
           Path: '{{ neogo__oracle_wallet_path }}'
           Password: '{{ neogo__oracle_wallet_passwd }}'
@@ -203,6 +198,7 @@ neogo__group_config: []
 neogo__host_config: []
 
 neogo__combined_config: '{{ 
+  neogo__default_network_config + 
   neogo__default_config + 
   neogo__config + 
   neogo__group_config +
