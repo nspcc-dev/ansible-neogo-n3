@@ -19,23 +19,23 @@ neogo__bin_path: '/usr/bin/neogo{{ neogo__instance }}'
 neogo__network: 'mainnet'
 
 neogo__wallet_path: '{{ neogo__conf_dir }}/wallet.json'
-neogo__wallet_passwd: ''
-neogo__wallet_content: ''
+neogo__wallet_password: ''
+neogo__wallet_struct: ''
 
 neogo__stateroot_enabled: False
 neogo__stateroot_wallet_path: '{{ neogo__conf_dir }}/wallet.stateroot.json'
-neogo__stateroot_wallet_passwd: ''
-neogo__stateroot_wallet_content: ''
+neogo__stateroot_wallet_password: ''
+neogo__stateroot_wallet_struct: ''
 
 neogo__oracle_enabled: False
 neogo__oracle_wallet_path: '{{ neogo__conf_dir }}/wallet.oracle.json'
-neogo__oracle_wallet_passwd: ''
-neogo__oracle_wallet_content: ''
+neogo__oracle_wallet_password: ''
+neogo__oracle_wallet_struct: ''
 
 neogo__p2pnotary_enabled: False
 neogo__p2pnotary_wallet_path: '{{ neogo__conf_dir }}/wallet.notary.json'
-neogo__p2pnotary_wallet_passwd: ''
-neogo__p2pnotary_wallet_content: ''
+neogo__p2pnotary_wallet_password: ''
+neogo__p2pnotary_wallet_struct: ''
 
 # Default bind address
 neogo__bind_address: '0.0.0.0'
@@ -117,12 +117,12 @@ neogo__raw_config:
         FilePath: '{{ neogo__data_dir }}/{{ neogo__network }}.bolt'
 
 neogo__default_config:
-  - enabled: '{{ neogo__wallet_content|length > 0 }}'
+  - enabled: '{{ neogo__wallet_struct|length > 0 }}'
     path: ApplicationConfiguration
     options:
       UnlockWallet:
         Path: '{{ neogo__wallet_path }}'
-        Password: '{{ neogo__wallet_passwd }}'
+        Password: '{{ neogo__wallet_password }}'
 
   - enabled: '{{ neogo__rpc_enabled }}'
     path: ApplicationConfiguration
@@ -157,7 +157,7 @@ neogo__default_config:
 #          Nodes: [ 'localhost:8080' ]
         UnlockWallet:
           Path: '{{ neogo__oracle_wallet_path }}'
-          Password: '{{ neogo__oracle_wallet_passwd }}'
+          Password: '{{ neogo__oracle_wallet_password }}'
 
   - enabled: '{{ neogo__stateroot_enabled }}'
     path: ApplicationConfiguration
@@ -166,7 +166,7 @@ neogo__default_config:
         Enabled: True
         UnlockWallet:
           Path: '{{ neogo__stateroot_wallet_path }}'
-          Password: '{{ neogo__stateroot_wallet_passwd }}'
+          Password: '{{ neogo__stateroot_wallet_password }}'
 
   - enabled: '{{ neogo__p2pnotary_enabled }}'
     path: ApplicationConfiguration
@@ -175,7 +175,7 @@ neogo__default_config:
         Enabled: True
         UnlockWallet:
           Path: '{{ neogo__p2pnotary_wallet_path }}'
-          Password: '{{ neogo__p2pnotary_wallet_passwd }}'
+          Password: '{{ neogo__p2pnotary_wallet_password }}'
 
   - enabled: '{{ neogo__metrics_enabled }}'
     path: ApplicationConfiguration
