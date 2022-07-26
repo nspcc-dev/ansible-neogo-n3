@@ -23,8 +23,8 @@
 - ansible.builtin.include_tasks: tls.yml
 
 - name: Copy NeoGo config
-  ansible.builtin.template:
-    src: 'protocol.network.yml.j2'
+  ansible.builtin.copy:
+    content: "{{ lookup('ansible.builtin.template', 'protocol.network.yml.j2', jinja2_native=true) }}"
     dest: '{{ neogo__conf_dir }}/protocol.{{ neogo__network }}.yml'
     owner: 'root'
     group: '{{ neogo__group }}'

@@ -1,21 +1,34 @@
 ---
 
-neogo__network_opts:
-  mainnet:
+neogo__network_type_settings:
+  neo-mainnet:
+    network: 'mainnet'
     p2p: 10333
     rpc: 10332
     tls: 10331
-  testnet:
+  neo-testnet:
+    network: 'testnet'
     p2p: 20333
     rpc: 20332
     tls: 20331
   privnet:
+    network: 'privnet'
     p2p: 30333
     rpc: 30332
     tls: 30331
+  morph-mainnet:
+    network: 'mainnet'
+#    p2p: 
+#    rpc: 
+#    tls: 
+  morph-testnet:
+    network: 'mainnet'
+#    p2p: 
+#    rpc: 
+#    tls: 
 
 neogo__default_network_config:
-  - enabled: "{{ neogo__network == 'mainnet' }}"
+  - enabled: "{{ neogo__network_type == 'neo-mainnet' }}"
     path: ProtocolConfiguration
     options:
       Magic: 860833102
@@ -49,7 +62,19 @@ neogo__default_network_config:
         - 'seed5.neo.org:10333'
       Hardforks:
         Aspidochelone: 1730000
-  - enabled: "{{ neogo__network == 'mainnet' and neogo__oracle_enabled }}"
+  - enabled: "{{ neogo__network_type == 'morph-mainnet' }}"
+    path: ProtocolConfiguration
+    options:
+      Magic: 914144375
+      SeedList:
+        - 'morph1.fs.neo.org:40333'
+        - 'morph2.fs.neo.org:40333'
+        - 'morph3.fs.neo.org:40333'
+        - 'morph4.fs.neo.org:40333'
+        - 'morph5.fs.neo.org:40333'
+        - 'morph6.fs.neo.org:40333'
+        - 'morph7.fs.neo.org:40333'
+  - enabled: "{{ neogo__network_type == 'morph-mainnet' and neogo__oracle_enabled }}"
     path: ApplicationConfiguration
     options:
       Oracle:
@@ -60,13 +85,10 @@ neogo__default_network_config:
             - 'st3.storage.fs.neo.org:8080'
             - 'st4.storage.fs.neo.org:8080'
 
-  - enabled: "{{ neogo__network == 'testnet' }}"
+  - enabled: "{{ neogo__network_type == 'neo-testnet' }}"
     path: ProtocolConfiguration
     options:
       Magic: 894710606
-      MaxBlockSize: 2097152
-      MaxBlockSystemFee: 150000000000
-      MaxTransactionsPerBlock: 5000
       StandbyCommittee:
         - '023e9b32ea89b94d066e649b124fd50e396ee91369e8e2a6ae1b11c170d022256d'
         - '03009b7540e10f2562e5fd8fac9eaec25166a58b26e412348ff5a86927bfac22a2'
@@ -97,7 +119,26 @@ neogo__default_network_config:
         - 'seed5t5.neo.org:20333'
       Hardforks:
         Aspidochelone: 210000
-  - enabled: "{{ neogo__network == 'testnet' and neogo__oracle_enabled }}"
+      MaxBlockSize: 2097152
+      MaxBlockSystemFee: 150000000000
+      MaxTransactionsPerBlock: 5000
+  - enabled: "{{ neogo__network_type == 'morph-testnet' }}"
+    path: ProtocolConfiguration
+    options:
+      Magic: 735783775
+      VerifyTransactions: True
+      P2PSigExtensions: True
+      NativeActivations:
+        Notary: [0]
+      SeedList:
+        - 'morph1.t5.fs.neo.org:50333'
+        - 'morph2.t5.fs.neo.org:50333'
+        - 'morph3.t5.fs.neo.org:50333'
+        - 'morph4.t5.fs.neo.org:50333'
+        - 'morph5.t5.fs.neo.org:50333'
+        - 'morph6.t5.fs.neo.org:50333'
+        - 'morph7.t5.fs.neo.org:50333'
+  - enabled: "{{ neogo__network_type == 'neo-testnet' and neogo__oracle_enabled }}"
     path: ApplicationConfiguration
     options:
       Oracle:
@@ -113,7 +154,7 @@ neogo__default_network_config:
             - 'st3.t5.fs.neo.org:8080'
             - 'st4.t5.fs.neo.org:8080'
 
-  - enabled: "{{ neogo__network == 'privnet' }}"
+  - enabled: "{{ neogo__network_type == 'privnet' }}"
     options:
       ProtocolConfiguration:
         Magic: 56753
