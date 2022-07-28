@@ -62,6 +62,7 @@ neogo__default_network_config:
         - 'seed5.neo.org:10333'
       Hardforks:
         Aspidochelone: 1730000
+
   - enabled: "{{ neogo__network_type == 'morph-mainnet' }}"
     path: ProtocolConfiguration
     options:
@@ -74,16 +75,6 @@ neogo__default_network_config:
         - 'morph5.fs.neo.org:40333'
         - 'morph6.fs.neo.org:40333'
         - 'morph7.fs.neo.org:40333'
-  - enabled: "{{ neogo__network_type == 'morph-mainnet' and neogo__oracle_enabled }}"
-    path: ApplicationConfiguration
-    options:
-      Oracle:
-        NeoFS:
-          Nodes:
-            - 'st1.storage.fs.neo.org:8080'
-            - 'st2.storage.fs.neo.org:8080'
-            - 'st3.storage.fs.neo.org:8080'
-            - 'st4.storage.fs.neo.org:8080'
 
   - enabled: "{{ neogo__network_type == 'neo-testnet' }}"
     path: ProtocolConfiguration
@@ -122,6 +113,7 @@ neogo__default_network_config:
       MaxBlockSize: 2097152
       MaxBlockSystemFee: 150000000000
       MaxTransactionsPerBlock: 5000
+
   - enabled: "{{ neogo__network_type == 'morph-testnet' }}"
     path: ProtocolConfiguration
     options:
@@ -138,21 +130,6 @@ neogo__default_network_config:
         - 'morph5.t5.fs.neo.org:50333'
         - 'morph6.t5.fs.neo.org:50333'
         - 'morph7.t5.fs.neo.org:50333'
-  - enabled: "{{ neogo__network_type == 'neo-testnet' and neogo__oracle_enabled }}"
-    path: ApplicationConfiguration
-    options:
-      Oracle:
-        Nodes:
-          - 'http://oracle1.ngd.network:30332'
-          - 'http://oracle2.ngd.network:30332'
-          - 'http://oracle3.ngd.network:30332'
-          - 'http://oracle.t5.n3.nspcc.ru:30332'
-        NeoFS:
-          Nodes:
-            - 'st1.t5.fs.neo.org:8080'
-            - 'st2.t5.fs.neo.org:8080'
-            - 'st3.t5.fs.neo.org:8080'
-            - 'st4.t5.fs.neo.org:8080'
 
   - enabled: "{{ neogo__network_type == 'privnet' }}"
     options:
