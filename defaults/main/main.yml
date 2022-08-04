@@ -58,6 +58,7 @@ neogo__rpc_port: '{{ neogo__network_type_settings[neogo__network_type].rpc }}'
 neogo__rpc_allow: []
 neogo__rpc_group_allow: []
 neogo__rpc_host_allow: []
+neogo__rpc_start_when_synchronized: False
 
 # TLS requires RPC to be enabled
 neogo__tls_enabled: False
@@ -136,6 +137,7 @@ neogo__default_config:
         EnableCORSWorkaround: False
         Address: '{{ neogo__rpc_address }}'
         Port: '{{ neogo__rpc_port }}'
+        StartWhenSynchronized: '{{ neogo__rpc_start_when_synchronized }}'
 
   - enabled: '{{ neogo__rpc_enabled and neogo__tls_enabled }}'
     path: ApplicationConfiguration
