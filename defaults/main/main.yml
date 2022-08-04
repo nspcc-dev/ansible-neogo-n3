@@ -1,6 +1,6 @@
 ---
 
-neogo__version: '0.99.0'
+neogo__version: '0.99.1'
 neogo__bin_url: 'https://github.com/nspcc-dev/neo-go/releases/download/v{{ neogo__version }}/neo-go-linux-amd64'
 neogo__docker_image: 'nspccdev/neo-go:{{ neogo__version }}'
 
@@ -66,12 +66,12 @@ neogo__tls_port: '{{ neogo__network_type_settings[neogo__network_type].tls | d()
 neogo__tls_cert_file: '{{ neogo__conf_dir }}/server.crt'
 neogo__tls_key_file: '{{ neogo__conf_dir }}/server.key'
 
-neogo__metrics_enabled: False
-neogo__metrics_address: 'localhost'
-neogo__metrics_port: 2112
-neogo__metrics_allow: []
-neogo__metrics_group_allow: []
-neogo__metrics_host_allow: []
+neogo__prometheus_enabled: False
+neogo__prometheus_address: 'localhost'
+neogo__prometheus_port: 2112
+neogo__prometheus_allow: []
+neogo__prometheus_group_allow: []
+neogo__prometheus_host_allow: []
 
 neogo__pprof_enabled: False
 neogo__pprof_address: 'localhost'
@@ -180,13 +180,13 @@ neogo__default_config:
           Path: '{{ neogo__p2pnotary_wallet_path }}'
           Password: '{{ neogo__p2pnotary_wallet_password }}'
 
-  - enabled: '{{ neogo__metrics_enabled }}'
+  - enabled: '{{ neogo__prometheus_enabled }}'
     path: ApplicationConfiguration
     options:
       Prometheus:
         Enabled: True
-        Address: '{{ neogo__metrics_address }}'
-        Port: '{{ neogo__metrics_port }}'
+        Address: '{{ neogo__prometheus_address }}'
+        Port: '{{ neogo__prometheus_port }}'
 
   - enabled: '{{ neogo__pprof_enabled }}'
     path: ApplicationConfiguration
@@ -248,13 +248,13 @@ neogo__ferm__dependent_rules:
     rule_state: "{{ 'present' if neogo__tls_enabled else 'absent' }}"
 
   - type: 'accept'
-    name: 'neogo{{ neogo__instance }}_metrics'
-    dport: [ '{{ neogo__metrics_port }}' ]
-    daddr: [ '{{ neogo__metrics_address }}' ]
-    saddr: '{{ neogo__metrics_allow + neogo__metrics_group_allow + neogo__metrics_host_allow }}'
+    name: 'neogo{{ neogo__instance }}_prometheus'
+    dport: [ '{{ neogo__prometheus_port }}' ]
+    daddr: [ '{{ neogo__prometheus_address }}' ]
+    saddr: '{{ neogo__prometheus_allow + neogo__prometheus_group_allow + neogo__prometheus_host_allow }}'
     protocol: 'tcp'
     role: 'neogo-n3'
-    rule_state: "{{ 'present' if neogo__metrics_enabled else 'absent' }}"
+    rule_state: "{{ 'present' if neogo__prometheus_enabled else 'absent' }}"
 
   - type: 'accept'
     name: 'neogo{{ neogo__instance }}_pprof'
