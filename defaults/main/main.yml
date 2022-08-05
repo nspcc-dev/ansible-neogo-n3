@@ -266,3 +266,7 @@ neogo__ferm__dependent_rules:
     protocol: 'tcp'
     role: 'neogo-n3'
     rule_state: "{{ 'present' if neogo__pprof_enabled else 'absent' }}"
+
+# Flag to skip binaries download
+neogo__binaries_download: True
+
