@@ -9,4 +9,4 @@
     group: 'root'
     mode: '0755'
   notify: [ 'Restart NeoGo{{ neogo__instance }}' ]
-  when: not (neogo__use_compose | bool) or (neogo__binaries_download | bool)
+  when: not (neogo__use_compose | bool) and (neogo__binaries_download | bool)
