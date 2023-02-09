@@ -47,6 +47,8 @@ neogo__bind_address: '0.0.0.0'
 # Ports and options for each service
 neogo__p2p_address: '{{ neogo__bind_address }}'
 neogo__p2p_port: '{{ neogo__network_type_settings[neogo__network_type].p2p }}'
+neogo__p2p_addresses:
+  - '{{ neogo__p2p_address }}:{{ neogo__p2p_port }}'
 neogo__p2p_allow: []
 neogo__p2p_group_allow: []
 neogo__p2p_host_allow: []
@@ -54,6 +56,8 @@ neogo__p2p_host_allow: []
 neogo__rpc_enabled: True
 neogo__rpc_address: '{{ neogo__bind_address }}'
 neogo__rpc_port: '{{ neogo__network_type_settings[neogo__network_type].rpc }}'
+neogo__rpc_addresses:
+  - '{{ neogo__rpc_address }}:{{ neogo__rpc_port }}'
 # Same list will be used for TLS ports
 neogo__rpc_allow: []
 neogo__rpc_group_allow: []
@@ -64,12 +68,16 @@ neogo__rpc_start_when_synchronized: False
 neogo__tls_enabled: False
 neogo__tls_address: '{{ neogo__bind_address }}'
 neogo__tls_port: '{{ neogo__network_type_settings[neogo__network_type].tls | d() }}'
+neogo__tls_addresses:
+  - '{{ neogo__tls_address }}:{{ neogo__tls_port }}'
 neogo__tls_cert_file: '{{ neogo__conf_dir }}/server.crt'
 neogo__tls_key_file: '{{ neogo__conf_dir }}/server.key'
 
 neogo__prometheus_enabled: False
 neogo__prometheus_address: 'localhost'
 neogo__prometheus_port: 2112
+neogo__prometheus_addresses:
+  - '{{ neogo__prometheus_address }}:{{ neogo__prometheus_port }}'
 neogo__prometheus_allow: []
 neogo__prometheus_group_allow: []
 neogo__prometheus_host_allow: []
@@ -77,6 +85,8 @@ neogo__prometheus_host_allow: []
 neogo__pprof_enabled: False
 neogo__pprof_address: 'localhost'
 neogo__pprof_port: 2113
+neogo__pprof_addresses:
+  - '{{ neogo__pprof_address }}:{{ neogo__pprof_port }}'
 neogo__pprof_allow: []
 neogo__pprof_group_allow: []
 neogo__pprof_host_allow: []
@@ -87,7 +97,7 @@ neogo__raw_config:
     MaxTraceableBlocks: 2102400
     MemPoolSize: 50000
     InitialGASSupply: 52000000
-    SecondsPerBlock: 15
+    TimePerBlock: 15s
     ValidatorsCount: 7
     VerifyBlocks: true
     VerifyTransactions: False
@@ -105,16 +115,7 @@ neogo__raw_config:
       OracleContract: [0]
 
   ApplicationConfiguration:
-    Address: '{{ neogo__p2p_address }}'
-    NodePort: '{{ neogo__p2p_port }}'
     Relay: True
-    DialTimeout: 3
-    ProtoTickInterval: 2
-    PingInterval: 30
-    PingTimeout: 90
-    MaxPeers: 100
-    MinPeers: 4
-    AttemptConnPeers: 20
     DBConfiguration:
       Type: 'boltdb'
       BoltDBOptions:
@@ -124,9 +125,24 @@ neogo__default_config:
   - enabled: '{{ neogo__wallet_struct|length > 0 }}'
     path: ApplicationConfiguration
     options:
-      UnlockWallet:
-        Path: '{{ neogo__wallet_path }}'
-        Password: '{{ neogo__wallet_password }}'
+      Consensus:
+        Enables: True
+        UnlockWallet:
+          Path: '{{ neogo__wallet_path }}'
+          Password: '{{ neogo__wallet_password }}'
+
+  - enabled: 'True'
+    path: ApplicationConfiguration
+    options:
+      P2P:
+        Addresses: '{{ neogo__p2p_addresses }}'
+        DialTimeout: 3s
+        ProtoTickInterval: 2s
+        PingInterval: 30s
+        PingTimeout: 90s
+        MaxPeers: 100
+        MinPeers: 4
+        AttemptConnPeers: 20
 
   - enabled: '{{ neogo__rpc_enabled }}'
     path: ApplicationConfiguration
@@ -135,8 +151,7 @@ neogo__default_config:
         Enabled: True
         MaxGasInvoke: 100
         EnableCORSWorkaround: False
-        Address: '{{ neogo__rpc_address }}'
-        Port: '{{ neogo__rpc_port }}'
+        Addresses: '{{ neogo__rpc_addresses }}'
         StartWhenSynchronized: '{{ neogo__rpc_start_when_synchronized }}'
 
   - enabled: '{{ neogo__rpc_enabled and neogo__tls_enabled }}'
@@ -145,8 +160,7 @@ neogo__default_config:
       RPC:
         TLSConfig:
           Enabled: True
-          Address: '{{ neogo__tls_address }}'
-          Port: '{{ neogo__tls_port }}'
+          Addresses: '{{ neogo__tls_addresses }}'
           CertFile: '{{ neogo__tls_cert_file }}'
           KeyFile: '{{ neogo__tls_key_file }}'
 
@@ -187,25 +201,23 @@ neogo__default_config:
     options:
       Prometheus:
         Enabled: True
-        Address: '{{ neogo__prometheus_address }}'
-        Port: '{{ neogo__prometheus_port }}'
+        Addresses: '{{ neogo__prometheus_addresses }}'
 
   - enabled: '{{ neogo__pprof_enabled }}'
     path: ApplicationConfiguration
     options:
       Pprof:
         Enabled: True
-        Address: '{{ neogo__pprof_address }}'
-        Port: '{{ neogo__pprof_port }}'
+        Addresses: '{{ neogo__pprof_addresses }}'
 
 neogo__config: []
 neogo__group_config: []
 neogo__host_config: []
 
-neogo__combined_config: '{{ 
-  neogo__default_network_config + 
-  neogo__default_config + 
-  neogo__config + 
+neogo__combined_config: '{{
+  neogo__default_network_config +
+  neogo__default_config +
+  neogo__config +
   neogo__group_config +
   neogo__host_config }}'
 
