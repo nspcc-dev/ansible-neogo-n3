@@ -18,14 +18,14 @@ neogo__network_type_settings:
     tls: 30331
   morph-mainnet:
     network: 'mainnet'
-#    p2p: 
-#    rpc: 
-#    tls: 
+#    p2p:
+#    rpc:
+#    tls:
   morph-testnet:
     network: 'mainnet'
-#    p2p: 
-#    rpc: 
-#    tls: 
+#    p2p:
+#    rpc:
+#    tls:
 
 neogo__default_network_config:
   - enabled: "{{ neogo__network_type == 'neo-mainnet' }}"
@@ -61,7 +61,7 @@ neogo__default_network_config:
         - 'seed4.neo.org:10333'
         - 'seed5.neo.org:10333'
       Hardforks:
-        Aspidochelone: 1730000
+        Aspidochelone: 2800000
 
   - enabled: "{{ neogo__network_type == 'morph-mainnet' }}"
     path: ProtocolConfiguration
@@ -139,4 +139,5 @@ neogo__default_network_config:
           - '02b3622bf4017bdfe317c58aed5f4c753f206b7db896046fa7d774bbc4bf7f8dc2'
         SeedList: [ 'localhost:30333' ]
       ApplicationConfiguration:
-        MinPeers: 0
+        P2P:
+          MinPeers: 0
