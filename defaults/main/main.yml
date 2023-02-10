@@ -126,7 +126,7 @@ neogo__default_config:
     path: ApplicationConfiguration
     options:
       Consensus:
-        Enables: True
+        Enabled: True
         UnlockWallet:
           Path: '{{ neogo__wallet_path }}'
           Password: '{{ neogo__wallet_password }}'
