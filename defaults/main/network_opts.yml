@@ -61,7 +61,7 @@ neogo__default_network_config:
         - 'seed4.neo.org:10333'
         - 'seed5.neo.org:10333'
       Hardforks:
-        Aspidochelone: 2800000
+        Aspidochelone: 1730000
 
   - enabled: "{{ neogo__network_type == 'morph-mainnet' }}"
     path: ProtocolConfiguration
