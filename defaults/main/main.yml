@@ -240,7 +240,6 @@ neogo__ferm__dependent_rules:
     daddr: [ "{{ (neogo__p2p_address != '0.0.0.0') | ternary( neogo__p2p_address, '0.0.0.0/0') }}" ]
     saddr: '{{ neogo__p2p_allow + neogo__p2p_group_allow + neogo__p2p_host_allow }}'
     protocol: 'tcp'
-    role: 'neogo-n3'
     rule_state: 'present'
 
   - type: 'accept'
@@ -249,7 +248,6 @@ neogo__ferm__dependent_rules:
     daddr: [ "{{ (neogo__rpc_address != '0.0.0.0') | ternary( neogo__rpc_address, '0.0.0.0/0') }}" ]
     saddr: '{{ neogo__rpc_allow + neogo__rpc_group_allow + neogo__rpc_host_allow }}'
     protocol: 'tcp'
-    role: 'neogo-n3'
     rule_state: "{{ 'present' if neogo__rpc_enabled else 'absent' }}"
 
   - type: 'accept'
@@ -258,7 +256,6 @@ neogo__ferm__dependent_rules:
     daddr: [ "{{ (neogo__tls_address != '0.0.0.0') | ternary( neogo__tls_address, '0.0.0.0/0') }}" ]
     saddr: '{{ neogo__rpc_allow + neogo__rpc_group_allow + neogo__rpc_host_allow }}'
     protocol: 'tcp'
-    role: 'neogo-n3'
     rule_state: "{{ 'present' if neogo__tls_enabled else 'absent' }}"
 
   - type: 'accept'
@@ -267,7 +264,6 @@ neogo__ferm__dependent_rules:
     daddr: [ "{{ (neogo__prometheus_address != '0.0.0.0') | ternary( neogo__prometheus_address, '0.0.0.0/0') }}" ]
     saddr: '{{ neogo__prometheus_allow + neogo__prometheus_group_allow + neogo__prometheus_host_allow }}'
     protocol: 'tcp'
-    role: 'neogo-n3'
     rule_state: "{{ 'present' if neogo__prometheus_enabled else 'absent' }}"
 
   - type: 'accept'
@@ -276,7 +272,6 @@ neogo__ferm__dependent_rules:
     daddr: [ "{{ (neogo__pprof_address != '0.0.0.0') | ternary( neogo__pprof_address, '0.0.0.0/0') }}" ]
     saddr: '{{ neogo__pprof_allow + neogo__pprof_group_allow + neogo__pprof_host_allow }}'
     protocol: 'tcp'
-    role: 'neogo-n3'
     rule_state: "{{ 'present' if neogo__pprof_enabled else 'absent' }}"
 
 # Flag to skip binaries download
