@@ -2,7 +2,9 @@
 
 neogo__version: '0.99.1'
 neogo__bin_url: 'https://github.com/nspcc-dev/neo-go/releases/download/v{{ neogo__version }}/neo-go-linux-amd64'
+
 neogo__docker_image: 'nspccdev/neo-go:{{ neogo__version }}'
+neogo__use_docker: False
 
 # Instance name to have multiple neo-go nodes on the same host
 neogo__instance: ''
@@ -221,11 +223,6 @@ neogo__combined_config: '{{
   neogo__group_config +
   neogo__host_config }}'
 
-
-
-# Systemd unit may use docker compose to run neo-go in container, instead of
-# local binary.
-neogo__use_compose: False
 
 # Force debops.ferm run via role import
 # May be useful when you need to have multiple instances with different

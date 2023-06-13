@@ -9,7 +9,7 @@
     group: 'root'
     mode: '0755'
   notify: [ 'Restart NeoGo{{ neogo__instance }}' ]
-  when: not (neogo__use_compose | bool) and (neogo__binaries_download | bool)
+  when: not (neogo__use_docker | bool) and (neogo__binaries_download | bool)
   register: download_result
   retries: 5
   delay: 5
