@@ -31,29 +31,15 @@
     mode: '0640'
   notify: [ 'Restart NeoGo{{ neogo__instance }}' ]
 
-- name: Copy compose file
-  ansible.builtin.template:
-    src: 'docker-compose.yml.j2'
-    dest: '{{ neogo__conf_dir }}/docker-compose.yml'
-    owner: 'root'
-    group: '{{ neogo__group }}'
-    mode: '0640'
-  notify: [ 'Restart NeoGo{{ neogo__instance }}' ]
-  when: neogo__use_compose | bool
-
-- name: Copy regular systemd unit
+- name: Copy systemd unit
   ansible.builtin.template:
     src: 'neogo.service.j2'
     dest: '/etc/systemd/system/neogo{{ neogo__instance }}.service'
   notify: [ 'Restart NeoGo{{ neogo__instance }}' ]
-  when: not (neogo__use_compose | bool)
+  when: not (neogo__use_docker | bool)
 
-- name: Copy dockerized systemd unit
-  ansible.builtin.template:
-    src: 'neogo_compose.service.j2'
-    dest: '/etc/systemd/system/neogo{{ neogo__instance }}.service'
-  notify: [ 'Restart NeoGo{{ neogo__instance }}' ]
-  when: neogo__use_compose | bool
+- ansible.builtin.include_tasks: docker.yml
+  when: neogo__use_docker | bool
 
 - name: Force debops.ferm run
   ansible.builtin.include_role:
