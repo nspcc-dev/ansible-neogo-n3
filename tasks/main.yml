@@ -19,8 +19,11 @@
     mode: '0750'
 
 - ansible.builtin.include_tasks: binary.yml
+  when: not neogo__use_docker|bool and neogo__binaries_download|bool
+
 - ansible.builtin.include_tasks: wallet.yml
 - ansible.builtin.include_tasks: tls.yml
+  when: neogo__tls_enabled|bool
 
 - name: Copy NeoGo config
   ansible.builtin.copy:
@@ -36,10 +39,10 @@
     src: 'neogo.service.j2'
     dest: '/etc/systemd/system/neogo{{ neogo__instance }}.service'
   notify: [ 'Restart NeoGo{{ neogo__instance }}' ]
-  when: not (neogo__use_docker | bool)
+  when: not neogo__use_docker|bool
 
 - ansible.builtin.include_tasks: docker.yml
-  when: neogo__use_docker | bool
+  when: neogo__use_docker|bool
 
 - name: Force debops.ferm run
   ansible.builtin.include_role:
@@ -47,4 +50,4 @@
   vars:
     ferm__dependent_rules:
       - '{{ neogo__ferm__dependent_rules }}'
-  when: neogo__debops_ferm_import | bool
+  when: neogo__debops_ferm_import|bool
