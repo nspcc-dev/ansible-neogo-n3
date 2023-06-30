@@ -234,7 +234,7 @@ neogo__ferm__dependent_rules:
   - type: 'accept'
     name: 'neogo{{ neogo__instance }}_p2p'
     dport: [ '{{ neogo__p2p_port }}' ]
-    daddr: [ "{{ neogo__p2p_address }}{{ '/0' if neogo__p2p_address in ['0.0.0.0', '::0'] }}" ]
+    daddr: [ "{{ neogo__p2p_address | replace('[', '') | replace(']', '') }}{{ '/0' if neogo__p2p_address in ['0.0.0.0', '::0', '[::0]'] }}" ]
     saddr: '{{ neogo__p2p_allow + neogo__p2p_group_allow + neogo__p2p_host_allow }}'
     protocol: 'tcp'
     rule_state: 'present'
@@ -242,7 +242,7 @@ neogo__ferm__dependent_rules:
   - type: 'accept'
     name: 'neogo{{ neogo__instance }}_rpc'
     dport: [ '{{ neogo__rpc_port }}' ]
-    daddr: [ "{{ neogo__rpc_address }}{{ '/0' if neogo__rpc_address in ['0.0.0.0', '::0'] }}" ]
+    daddr: [ "{{ neogo__rpc_address | replace('[', '') | replace(']', '') }}{{ '/0' if neogo__rpc_address in ['0.0.0.0', '::0', '[::0]'] }}" ]
     saddr: '{{ neogo__rpc_allow + neogo__rpc_group_allow + neogo__rpc_host_allow }}'
     protocol: 'tcp'
     rule_state: "{{ 'present' if neogo__rpc_enabled else 'absent' }}"
@@ -250,7 +250,7 @@ neogo__ferm__dependent_rules:
   - type: 'accept'
     name: 'neogo{{ neogo__instance }}_tls'
     dport: [ '{{ neogo__tls_port }}' ]
-    daddr: [ "{{ neogo__tls_address }}{{ '/0' if neogo__tls_address in ['0.0.0.0', '::0'] }}" ]
+    daddr: [ "{{ neogo__tls_address | replace('[', '') | replace(']', '') }}{{ '/0' if neogo__tls_address in ['0.0.0.0', '::0', '[::0]'] }}" ]
     saddr: '{{ neogo__rpc_allow + neogo__rpc_group_allow + neogo__rpc_host_allow }}'
     protocol: 'tcp'
     rule_state: "{{ 'present' if neogo__tls_enabled else 'absent' }}"
@@ -258,7 +258,7 @@ neogo__ferm__dependent_rules:
   - type: 'accept'
     name: 'neogo{{ neogo__instance }}_prometheus'
     dport: [ '{{ neogo__prometheus_port }}' ]
-    daddr: [ "{{ neogo__prometheus_address }}{{ '/0' if neogo__prometheus_address in ['0.0.0.0', '::0'] }}" ]
+    daddr: [ "{{ neogo__prometheus_address | replace('[', '') | replace(']', '') }}{{ '/0' if neogo__prometheus_address in ['0.0.0.0', '::0', '[::0]'] }}" ]
     saddr: '{{ neogo__prometheus_allow + neogo__prometheus_group_allow + neogo__prometheus_host_allow }}'
     protocol: 'tcp'
     rule_state: "{{ 'present' if neogo__prometheus_enabled else 'absent' }}"
@@ -266,7 +266,7 @@ neogo__ferm__dependent_rules:
   - type: 'accept'
     name: 'neogo{{ neogo__instance }}_pprof'
     dport: [ '{{ neogo__pprof_port }}' ]
-    daddr: [ "{{ neogo__pprof_address }}{{ '/0' if neogo__pprof_address in ['0.0.0.0', '::0'] }}" ]
+    daddr: [ "{{ neogo__pprof_address | replace('[', '') | replace(']', '') }}{{ '/0' if neogo__pprof_address in ['0.0.0.0', '::0', '[::0]'] }}" ]
     saddr: '{{ neogo__pprof_allow + neogo__pprof_group_allow + neogo__pprof_host_allow }}'
     protocol: 'tcp'
     rule_state: "{{ 'present' if neogo__pprof_enabled else 'absent' }}"
