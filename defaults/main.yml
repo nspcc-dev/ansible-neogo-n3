@@ -49,8 +49,7 @@ neogo__bind_address: '0.0.0.0'
 # Ports and options for each service
 neogo__p2p_address: '{{ neogo__bind_address }}'
 neogo__p2p_port: '{{ neogo__network_type_settings[neogo__network_type].p2p }}'
-neogo__p2p_addresses:
-  - '{{ neogo__p2p_address }}:{{ neogo__p2p_port }}'
+neogo__p2p_addresses: [ '{{ neogo__p2p_address | ansible.utils.ipwrap }}:{{ neogo__p2p_port }}' ]
 neogo__p2p_allow: []
 neogo__p2p_group_allow: []
 neogo__p2p_host_allow: []
@@ -58,8 +57,7 @@ neogo__p2p_host_allow: []
 neogo__rpc_enabled: True
 neogo__rpc_address: '{{ neogo__bind_address }}'
 neogo__rpc_port: '{{ neogo__network_type_settings[neogo__network_type].rpc }}'
-neogo__rpc_addresses:
-  - '{{ neogo__rpc_address }}:{{ neogo__rpc_port }}'
+neogo__rpc_addresses: [ '{{ neogo__rpc_address | ansible.utils.ipwrap }}:{{ neogo__rpc_port }}' ]
 # Same list will be used for TLS ports
 neogo__rpc_allow: []
 neogo__rpc_group_allow: []
@@ -70,16 +68,14 @@ neogo__rpc_start_when_synchronized: False
 neogo__tls_enabled: False
 neogo__tls_address: '{{ neogo__bind_address }}'
 neogo__tls_port: '{{ neogo__network_type_settings[neogo__network_type].tls | d() }}'
-neogo__tls_addresses:
-  - '{{ neogo__tls_address }}:{{ neogo__tls_port }}'
+neogo__tls_addresses: [ '{{ neogo__tls_address | ansible.utils.ipwrap }}:{{ neogo__tls_port }}' ]
 neogo__tls_cert_file: '{{ neogo__conf_dir }}/server.crt'
 neogo__tls_key_file: '{{ neogo__conf_dir }}/server.key'
 
 neogo__prometheus_enabled: False
 neogo__prometheus_address: 'localhost'
 neogo__prometheus_port: 2112
-neogo__prometheus_addresses:
-  - '{{ neogo__prometheus_address }}:{{ neogo__prometheus_port }}'
+neogo__prometheus_addresses: [ '{{ neogo__prometheus_address | ansible.utils.ipwrap }}:{{ neogo__prometheus_port }}' ]
 neogo__prometheus_allow: []
 neogo__prometheus_group_allow: []
 neogo__prometheus_host_allow: []
@@ -87,8 +83,7 @@ neogo__prometheus_host_allow: []
 neogo__pprof_enabled: False
 neogo__pprof_address: 'localhost'
 neogo__pprof_port: 2113
-neogo__pprof_addresses:
-  - '{{ neogo__pprof_address }}:{{ neogo__pprof_port }}'
+neogo__pprof_addresses: [ '{{ neogo__pprof_address | ansible.utils.ipwrap }}:{{ neogo__pprof_port }}' ]
 neogo__pprof_allow: []
 neogo__pprof_group_allow: []
 neogo__pprof_host_allow: []
@@ -234,7 +229,7 @@ neogo__ferm__dependent_rules:
   - type: 'accept'
     name: 'neogo{{ neogo__instance }}_p2p'
     dport: [ '{{ neogo__p2p_port }}' ]
-    daddr: [ "{{ neogo__p2p_address }}{{ '/0' if neogo__p2p_address in ['0.0.0.0', '::0'] }}" ]
+    daddr: [ "{{ neogo__p2p_address }}{{ '/0' if neogo__p2p_address in ['0.0.0.0', '::0', '::'] }}" ]
     saddr: '{{ neogo__p2p_allow + neogo__p2p_group_allow + neogo__p2p_host_allow }}'
     protocol: 'tcp'
     rule_state: 'present'
@@ -242,7 +237,7 @@ neogo__ferm__dependent_rules:
   - type: 'accept'
     name: 'neogo{{ neogo__instance }}_rpc'
     dport: [ '{{ neogo__rpc_port }}' ]
-    daddr: [ "{{ neogo__rpc_address }}{{ '/0' if neogo__rpc_address in ['0.0.0.0', '::0'] }}" ]
+    daddr: [ "{{ neogo__rpc_address }}{{ '/0' if neogo__rpc_address in ['0.0.0.0', '::0', '::'] }}" ]
     saddr: '{{ neogo__rpc_allow + neogo__rpc_group_allow + neogo__rpc_host_allow }}'
     protocol: 'tcp'
     rule_state: "{{ 'present' if neogo__rpc_enabled else 'absent' }}"
@@ -250,7 +245,7 @@ neogo__ferm__dependent_rules:
   - type: 'accept'
     name: 'neogo{{ neogo__instance }}_tls'
     dport: [ '{{ neogo__tls_port }}' ]
-    daddr: [ "{{ neogo__tls_address }}{{ '/0' if neogo__tls_address in ['0.0.0.0', '::0'] }}" ]
+    daddr: [ "{{ neogo__tls_address }}{{ '/0' if neogo__tls_address in ['0.0.0.0', '::0', '::'] }}" ]
     saddr: '{{ neogo__rpc_allow + neogo__rpc_group_allow + neogo__rpc_host_allow }}'
     protocol: 'tcp'
     rule_state: "{{ 'present' if neogo__tls_enabled else 'absent' }}"
@@ -258,7 +253,7 @@ neogo__ferm__dependent_rules:
   - type: 'accept'
     name: 'neogo{{ neogo__instance }}_prometheus'
     dport: [ '{{ neogo__prometheus_port }}' ]
-    daddr: [ "{{ neogo__prometheus_address }}{{ '/0' if neogo__prometheus_address in ['0.0.0.0', '::0'] }}" ]
+    daddr: [ "{{ neogo__prometheus_address }}{{ '/0' if neogo__prometheus_address in ['0.0.0.0', '::0', '::'] }}" ]
     saddr: '{{ neogo__prometheus_allow + neogo__prometheus_group_allow + neogo__prometheus_host_allow }}'
     protocol: 'tcp'
     rule_state: "{{ 'present' if neogo__prometheus_enabled else 'absent' }}"
@@ -266,7 +261,7 @@ neogo__ferm__dependent_rules:
   - type: 'accept'
     name: 'neogo{{ neogo__instance }}_pprof'
     dport: [ '{{ neogo__pprof_port }}' ]
-    daddr: [ "{{ neogo__pprof_address }}{{ '/0' if neogo__pprof_address in ['0.0.0.0', '::0'] }}" ]
+    daddr: [ "{{ neogo__pprof_address }}{{ '/0' if neogo__pprof_address in ['0.0.0.0', '::0', '::'] }}" ]
     saddr: '{{ neogo__pprof_allow + neogo__pprof_group_allow + neogo__pprof_host_allow }}'
     protocol: 'tcp'
     rule_state: "{{ 'present' if neogo__pprof_enabled else 'absent' }}"
