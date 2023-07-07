@@ -44,7 +44,7 @@ neogo__p2pnotary_wallet_password: ''
 neogo__p2pnotary_wallet_struct: ''
 
 # Default bind address
-neogo__bind_address: '0.0.0.0'
+neogo__bind_address: '::'
 
 # Ports and options for each service
 neogo__p2p_address: '{{ neogo__bind_address }}'
