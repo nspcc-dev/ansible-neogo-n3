@@ -1,22 +1,17 @@
 ---
-# Copyright (C) 2020 NSPCC <https://nspcc.ru/>
-# SPDX-License-Identifier: GPL-3.0-or-later
-
 galaxy_info:
   role_name: 'neogo-n3'
   namespace: 'nspcc'
   author: 'NSPCC Operations <ops@nspcc.ru>'
-  description: 'NeoGo N3 node'
+  description: 'NeoGo N3 Node'
   company: 'NSPCC'
   license: 'GPL-3.0-or-later'
   min_ansible_version: '2.10.0'
 
   platforms:
     - name: Debian
-      versions:
-        - buster
+
   galaxy_tags:
     - neo
     - neogo
     - blockchain
-dependencies: []
