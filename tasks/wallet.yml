@@ -22,7 +22,7 @@
 
 - name: Copy Oracle wallet
   ansible.builtin.copy:
-    src: '{{ neogo__oracle_wallet_struct }}'
+    src: '{{ neogo__oracle_wallet }}'
     dest: '{{ neogo__oracle_wallet_path }}'
     owner: 'root'
     group: '{{ neogo__group }}'
@@ -32,7 +32,7 @@
 
 - name: Copy Notary Service wallet
   ansible.builtin.copy:
-    src: '{{ neogo__p2pnotary_wallet_struct }}'
+    src: '{{ neogo__p2pnotary_wallet }}'
     dest: '{{ neogo__p2pnotary_wallet_path }}'
     owner: 'root'
     group: '{{ neogo__group }}'
