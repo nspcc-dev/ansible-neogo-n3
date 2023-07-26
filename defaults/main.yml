@@ -26,22 +26,22 @@ neogo__network: '{{ neogo__network_type_settings[neogo__network_type].network }}
 
 neogo__wallet_path: '{{ neogo__conf_dir }}/wallet.json'
 neogo__wallet_password: ''
-neogo__wallet_struct: ''
+neogo__wallet: ''
 
 neogo__stateroot_enabled: False
 neogo__stateroot_wallet_path: '{{ neogo__conf_dir }}/wallet.stateroot.json'
 neogo__stateroot_wallet_password: ''
-neogo__stateroot_wallet_struct: ''
+neogo__stateroot_wallet: ''
 
 neogo__oracle_enabled: False
 neogo__oracle_wallet_path: '{{ neogo__conf_dir }}/wallet.oracle.json'
 neogo__oracle_wallet_password: ''
-neogo__oracle_wallet_struct: ''
+neogo__oracle_wallet: ''
 
 neogo__p2pnotary_enabled: False
 neogo__p2pnotary_wallet_path: '{{ neogo__conf_dir }}/wallet.notary.json'
 neogo__p2pnotary_wallet_password: ''
-neogo__p2pnotary_wallet_struct: ''
+neogo__p2pnotary_wallet: ''
 
 # Default bind address
 neogo__bind_address: '::'
@@ -119,7 +119,7 @@ neogo__raw_config:
         FilePath: '{{ neogo__data_dir }}/{{ neogo__network }}.bolt'
 
 neogo__default_config:
-  - enabled: '{{ neogo__wallet_struct|length > 0 }}'
+  - enabled: '{{ neogo__wallet|length > 0 }}'
     path: ApplicationConfiguration
     options:
       Consensus:

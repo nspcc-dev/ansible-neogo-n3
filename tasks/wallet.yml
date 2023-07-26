@@ -2,40 +2,40 @@
 
 - name: Copy NeoGo wallet
   ansible.builtin.copy:
-    content: '{{ neogo__wallet_struct | to_nice_json(ensure_ascii=False) }}'
+    src: '{{ neogo__wallet }}'
     dest: '{{ neogo__wallet_path }}'
     owner: 'root'
     group: '{{ neogo__group }}'
     mode: '0640'
-  when: neogo__wallet_struct|length
+  when: neogo__wallet|length
   notify: [ 'Restart NeoGo{{ neogo__instance }}' ]
 
 - name: Copy Stateroot Validator wallet
   ansible.builtin.copy:
-    content: '{{ neogo__stateroot_wallet_struct | to_nice_json(ensure_ascii=False) }}'
+    src: '{{ neogo__stateroot_wallet }}'
     dest: '{{ neogo__stateroot_wallet_path }}'
     owner: 'root'
     group: '{{ neogo__group }}'
     mode: '0640'
-  when: neogo__stateroot_wallet_struct|length
+  when: neogo__stateroot_wallet|length
   notify: [ 'Restart NeoGo{{ neogo__instance }}' ]
 
 - name: Copy Oracle wallet
   ansible.builtin.copy:
-    content: '{{ neogo__oracle_wallet_struct | to_nice_json(ensure_ascii=False) }}'
+    src: '{{ neogo__oracle_wallet_struct }}'
     dest: '{{ neogo__oracle_wallet_path }}'
     owner: 'root'
     group: '{{ neogo__group }}'
     mode: '0640'
-  when: neogo__oracle_wallet_struct|length
+  when: neogo__oracle_wallet|length
   notify: [ 'Restart NeoGo{{ neogo__instance }}' ]
 
 - name: Copy Notary Service wallet
   ansible.builtin.copy:
-    content: '{{ neogo__p2pnotary_wallet_struct | to_nice_json(ensure_ascii=False) }}'
+    src: '{{ neogo__p2pnotary_wallet_struct }}'
     dest: '{{ neogo__p2pnotary_wallet_path }}'
     owner: 'root'
     group: '{{ neogo__group }}'
     mode: '0640'
-  when: neogo__p2pnotary_wallet_struct|length
+  when: neogo__p2pnotary_wallet|length
   notify: [ 'Restart NeoGo{{ neogo__instance }}' ]
