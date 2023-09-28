@@ -28,7 +28,7 @@
 - name: Copy NeoGo config
   ansible.builtin.copy:
     content: "{{ lookup('ansible.builtin.template', 'protocol.network.yml.j2', jinja2_native=true) }}"
-    dest: '{{ neogo__conf_dir }}/protocol.{{ neogo__network }}.yml'
+    dest: '{{ neogo__conf_dir }}/config.yml'
     owner: 'root'
     group: '{{ neogo__group }}'
     mode: '0640'

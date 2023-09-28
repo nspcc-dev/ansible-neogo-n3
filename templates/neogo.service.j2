@@ -6,7 +6,7 @@ Requires=network.target
 
 [Service]
 Type=simple
-ExecStart={{ neogo__bin_path }} node --{{ neogo__network }} --config-path={{ neogo__conf_dir }}
+ExecStart={{ neogo__bin_path }} node --config-file {{ neogo__conf_dir }}/config.yml
 User={{ neogo__user }}
 Group={{ neogo__group }}
 WorkingDirectory={{ neogo__data_dir }}

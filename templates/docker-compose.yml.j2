@@ -11,7 +11,7 @@ services:
     stop_signal: SIGKILL
     user: '{{ ansible_facts.getent_passwd[neogo__user][1] }}:{{ ansible_facts.getent_passwd[neogo__user][2] }}'
     entrypoint: /usr/bin/neo-go
-    command: node --config-path {{ neogo__conf_dir }} --{{ neogo__network }}
+    command: node --config-file {{ neogo__conf_dir }}/config.yml
     volumes:
     - {{ neogo__data_dir }}:{{ neogo__data_dir }}
     - {{ neogo__conf_dir }}:{{ neogo__conf_dir }}
