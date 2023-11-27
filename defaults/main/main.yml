@@ -96,7 +96,6 @@ neogo__raw_config:
     InitialGASSupply: 52000000
     TimePerBlock: 15s
     ValidatorsCount: 7
-    VerifyBlocks: true
     VerifyTransactions: False
     P2PSigExtensions: False
     StateRootInHeader: False
