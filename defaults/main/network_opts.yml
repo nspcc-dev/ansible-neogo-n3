@@ -122,8 +122,6 @@ neogo__default_network_config:
       Magic: 735783775
       VerifyTransactions: True
       P2PSigExtensions: True
-      NativeActivations:
-        Notary: [0]
       SeedList:
         - 'morph1.t5.fs.neo.org:50333'
         - 'morph2.t5.fs.neo.org:50333'
