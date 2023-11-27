@@ -100,16 +100,6 @@ neogo__raw_config:
     VerifyTransactions: False
     P2PSigExtensions: False
     StateRootInHeader: False
-    NativeActivations:
-      ContractManagement: [0]
-      StdLib: [0]
-      CryptoLib: [0]
-      LedgerContract: [0]
-      NeoToken: [0]
-      GasToken: [0]
-      PolicyContract: [0]
-      RoleManagement: [0]
-      OracleContract: [0]
 
   ApplicationConfiguration:
     Relay: True
