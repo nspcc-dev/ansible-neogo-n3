@@ -251,7 +251,6 @@ neogo__ferm__dependent_rules:
     name: 'neogo{{ neogo__instance }}_pprof'
     dport: [ '{{ neogo__pprof_port }}' ]
     daddr: [ "{{ ( neogo__pprof_address in ['0.0.0.0', '::0', '::'] )| ternary( '0/0', neogo__pprof_address ) }}" ]
-    saddr: '{{ neogo__prometheus_allow + neogo__prometheus_group_allow + neogo__prometheus_host_allow }}'
     saddr: '{{ neogo__pprof_allow + neogo__pprof_group_allow + neogo__pprof_host_allow }}'
     protocol: 'tcp'
     rule_state: "{{ 'present' if neogo__pprof_enabled else 'absent' }}"
