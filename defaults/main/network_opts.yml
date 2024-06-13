@@ -64,6 +64,7 @@ neogo__default_network_config:
         Aspidochelone: 1730000
         Basilisk: 4120000
         Cockatrice: 5450000
+        Domovoi: 5570000
 
   - enabled: "{{ neogo__network_type == 'morph-mainnet' }}"
     path: ProtocolConfiguration
@@ -114,6 +115,7 @@ neogo__default_network_config:
         Aspidochelone: 210000
         Basilisk: 2680000
         Cockatrice: 3967000
+        Domovoi: 4144000
       MaxBlockSize: 2097152
       MaxBlockSystemFee: 150000000000
       MaxTransactionsPerBlock: 5000
