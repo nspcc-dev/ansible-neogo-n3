@@ -28,6 +28,16 @@ neogo__network_type_settings:
 #    tls:
 
 neogo__default_network_config:
+  - enabled: "{{ neogo__network_type is match('neo-.*') }}"
+    path: ProtocolConfiguration
+    options:
+      MaxTraceableBlocks: 2102400
+
+  - enabled: "{{ neogo__network_type is match('morph-.*') }}"
+    path: ProtocolConfiguration
+    options:
+      MaxTraceableBlocks: 17280
+
   - enabled: "{{ neogo__network_type == 'neo-mainnet' }}"
     path: ProtocolConfiguration
     options:
