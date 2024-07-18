@@ -91,7 +91,6 @@ neogo__pprof_host_allow: []
 
 neogo__raw_config:
   ProtocolConfiguration:
-    MaxTraceableBlocks: 2102400
     MemPoolSize: 50000
     InitialGASSupply: 52000000
     TimePerBlock: 15s
