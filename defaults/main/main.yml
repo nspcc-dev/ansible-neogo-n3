@@ -223,7 +223,7 @@ neogo__ferm__dependent_rules:
     daddr: [ "{{ ( neogo__rpc_address in ['0.0.0.0', '::0', '::'] )| ternary( '0/0', neogo__rpc_address ) }}" ]
     saddr: '{{ neogo__rpc_allow + neogo__rpc_group_allow + neogo__rpc_host_allow }}'
     protocol: 'tcp'
-    rule_state: "{{ 'present' if neogo__rpc_enabled and neogo__rpc_address not in ['localhost', '127.0.0.1', '::1'] else 'absent' }}"
+    rule_state: "{{ 'present' if neogo__rpc_enabled and not ( neogo__rpc_address == 'localhost' or '127.0.0.0/8'|ansible.utils.network_in_usable( neogo__rpc_address ) or '::1/128'|ansible.utils.network_in_usable( neogo__rpc_address ) ) else 'absent' }}"
 
   - type: 'accept'
     name: 'neogo{{ neogo__instance }}_tls'
@@ -231,7 +231,7 @@ neogo__ferm__dependent_rules:
     daddr: [ "{{ ( neogo__tls_address in ['0.0.0.0', '::0', '::'] )| ternary( '0/0', neogo__tls_address ) }}" ]
     saddr: '{{ neogo__rpc_allow + neogo__rpc_group_allow + neogo__rpc_host_allow }}'
     protocol: 'tcp'
-    rule_state: "{{ 'present' if neogo__tls_enabled and neogo__tls_address not in ['localhost', '127.0.0.1', '::1'] else 'absent' }}"
+    rule_state: "{{ 'present' if neogo__tls_enabled and not ( neogo__tls_address == 'localhost' or '127.0.0.0/8'|ansible.utils.network_in_usable( neogo__tls_address ) or '::1/128'|ansible.utils.network_in_usable( neogo__tls_address ) ) else 'absent' }}"
 
   - type: 'accept'
     name: 'neogo{{ neogo__instance }}_prometheus'
@@ -239,7 +239,7 @@ neogo__ferm__dependent_rules:
     daddr: [ "{{ ( neogo__prometheus_address in ['0.0.0.0', '::0', '::'] )| ternary( '0/0', neogo__prometheus_address ) }}" ]
     saddr: '{{ neogo__prometheus_allow + neogo__prometheus_group_allow + neogo__prometheus_host_allow }}'
     protocol: 'tcp'
-    rule_state: "{{ 'present' if neogo__prometheus_enabled and neogo__prometheus_address not in ['localhost', '127.0.0.1', '::1'] else 'absent' }}"
+    rule_state: "{{ 'present' if neogo__prometheus_enabled and not ( neogo__prometheus_address == 'localhost' or '127.0.0.0/8'|ansible.utils.network_in_usable( neogo__prometheus_address ) or '::1/128'|ansible.utils.network_in_usable( neogo__prometheus_address ) ) else 'absent' }}"
 
   - type: 'accept'
     name: 'neogo{{ neogo__instance }}_pprof'
@@ -247,7 +247,7 @@ neogo__ferm__dependent_rules:
     daddr: [ "{{ ( neogo__pprof_address in ['0.0.0.0', '::0', '::'] )| ternary( '0/0', neogo__pprof_address ) }}" ]
     saddr: '{{ neogo__pprof_allow + neogo__pprof_group_allow + neogo__pprof_host_allow }}'
     protocol: 'tcp'
-    rule_state: "{{ 'present' if neogo__pprof_enabled and neogo__pprof_address not in ['localhost', '127.0.0.1', '::1'] else 'absent' }}"
+    rule_state: "{{ 'present' if neogo__pprof_enabled and not ( neogo__pprof_address == 'localhost' or '127.0.0.0/8'|ansible.utils.network_in_usable( neogo__pprof_address ) or '::1/128'|ansible.utils.network_in_usable( neogo__pprof_address ) ) else 'absent' }}"
 
 # Flag to skip binaries download
 neogo__binaries_download: True
