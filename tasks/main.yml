@@ -44,10 +44,7 @@
 - ansible.builtin.include_tasks: docker.yml
   when: neogo__use_docker|bool
 
-- name: Force debops.ferm run
-  ansible.builtin.include_role:
-    name: debops.debops.ferm
-  vars:
-    ferm__dependent_rules:
-      - '{{ neogo__ferm__dependent_rules }}'
-  when: neogo__debops_ferm_import|bool
+- name: Save debops.ferm rules as facts
+  tags: [ 'role::ferm', 'skip::ferm' ]
+  ansible.builtin.set_fact:
+    neogo__ferm__rules: '{{ neogo__ferm__rules|d([]) + neogo__ferm__dependent_rules }}'
