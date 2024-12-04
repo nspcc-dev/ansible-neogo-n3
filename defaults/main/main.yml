@@ -90,10 +90,10 @@ neogo__pprof_host_allow: []
 
 neogo__neofs_blockfetcher_enabled: False
 neogo__neofs_blockfetcher_addresses:
-  - st1.storage.fs.neo.org:443
-  - st2.storage.fs.neo.org:443
-  - st3.storage.fs.neo.org:443
-  - st4.storage.fs.neo.org:443
+  - grpcs://st1.storage.fs.neo.org:443
+  - grpcs://st2.storage.fs.neo.org:443
+  - grpcs://st3.storage.fs.neo.org:443
+  - grpcs://st4.storage.fs.neo.org:443
 neogo__neofs_blockfetcher_container_id: '{{ neogo__network_type_settings[neogo__network_type].neofs_blockfetcher_container_id }}'
 
 
