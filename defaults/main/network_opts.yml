@@ -3,11 +3,13 @@
 neogo__network_type_settings:
   neo-mainnet:
     network: 'mainnet'
+    neofs_blockfetcher_container_id: '7a1cn9LNmAcHjESKWxRGG7RSZ55YHJF6z2xDLTCuTZ6c'
     p2p: 10333
     rpc: 10332
     tls: 10331
   neo-testnet:
     network: 'testnet'
+    neofs_blockfetcher_container_id: '87JRc7vyWcjW8uS32LMoLTAj4ckCzFZWfKbacjU3sAob'
     p2p: 20333
     rpc: 20332
     tls: 20331
@@ -18,11 +20,13 @@ neogo__network_type_settings:
     tls: 30331
   morph-mainnet:
     network: 'mainnet'
+    neofs_blockfetcher_container_id: 'VCVr6RKg1hfJR7v36xvjbaXTncj1waPi94u9EFyEttW'
 #    p2p:
 #    rpc:
 #    tls:
   morph-testnet:
     network: 'mainnet'
+    neofs_blockfetcher_container_id: 'FidCcVzUxzY3PeUksCnnpUQ8h8PJeYPessX8FRMuveSy'
 #    p2p:
 #    rpc:
 #    tls:

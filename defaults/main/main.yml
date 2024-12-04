@@ -88,6 +88,14 @@ neogo__pprof_allow: []
 neogo__pprof_group_allow: []
 neogo__pprof_host_allow: []
 
+neogo__neofs_blockfetcher_enabled: False
+neogo__neofs_blockfetcher_addresses:
+  - st1.storage.fs.neo.org:443
+  - st2.storage.fs.neo.org:443
+  - st3.storage.fs.neo.org:443
+  - st4.storage.fs.neo.org:443
+neogo__neofs_blockfetcher_container_id: '{{ neogo__network_type_settings[neogo__network_type].neofs_blockfetcher_container_id }}'
+
 
 neogo__raw_config:
   ProtocolConfiguration:
@@ -194,6 +202,20 @@ neogo__default_config:
       Pprof:
         Enabled: True
         Addresses: '{{ neogo__pprof_addresses }}'
+
+  - enabled: '{{ neogo__neofs_blockfetcher_enabled }}'
+    path: ApplicationConfiguration
+    options:
+      NeoFSBlockFetcher:
+        Enabled: True
+        Addresses: '{{ neogo__neofs_blockfetcher_addresses }}'
+        containerid: '{{ neogo__neofs_blockfetcher_container_id }}'
+        BlockAttribute: 'Block'
+        IndexFileAttribute: 'Index'
+        Timeout: '10m'
+        DownloaderWorkersCount: 500
+        BQueueSize: 16000
+        IndexFileSize: 128000
 
 neogo__config: []
 neogo__group_config: []
