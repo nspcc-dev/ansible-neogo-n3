@@ -209,7 +209,7 @@ neogo__default_config:
       NeoFSBlockFetcher:
         Enabled: True
         Addresses: '{{ neogo__neofs_blockfetcher_addresses }}'
-        containerid: '{{ neogo__neofs_blockfetcher_container_id }}'
+        ContainerID: '{{ neogo__neofs_blockfetcher_container_id }}'
         BlockAttribute: 'Block'
         IndexFileAttribute: 'Index'
         Timeout: '10m'
