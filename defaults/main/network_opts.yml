@@ -84,6 +84,8 @@ neogo__default_network_config:
     path: ProtocolConfiguration
     options:
       Magic: 91414437
+      VerifyTransactions: True
+      P2PSigExtensions: True
       SeedList:
         - 'morph1.fs.neo.org:40333'
         - 'morph2.fs.neo.org:40333'
@@ -92,6 +94,11 @@ neogo__default_network_config:
         - 'morph5.fs.neo.org:40333'
         - 'morph6.fs.neo.org:40333'
         - 'morph7.fs.neo.org:40333'
+      Hardforks:
+        Aspidochelone: 3000000
+        Basilisk: 4500000
+        Cockatrice: 5800000
+        Domovoi: 5800000
 
   - enabled: "{{ neogo__network_type == 'neo-testnet' }}"
     path: ProtocolConfiguration
@@ -148,6 +155,11 @@ neogo__default_network_config:
         - 'morph5.t5.fs.neo.org:50333'
         - 'morph6.t5.fs.neo.org:50333'
         - 'morph7.t5.fs.neo.org:50333'
+      Hardforks:
+        Aspidochelone: 0
+        Basilisk: 0
+        Cockatrice: 0
+        Domovoi: 0
 
   - enabled: "{{ neogo__network_type == 'privnet' }}"
     options:
