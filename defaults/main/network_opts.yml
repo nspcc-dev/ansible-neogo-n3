@@ -18,13 +18,13 @@ neogo__network_type_settings:
     p2p: 30333
     rpc: 30332
     tls: 30331
-  morph-mainnet:
+  fschain-mainnet:
     network: 'mainnet'
     neofs_blockfetcher_container_id: 'VCVr6RKg1hfJR7v36xvjbaXTncj1waPi94u9EFyEttW'
 #    p2p:
 #    rpc:
 #    tls:
-  morph-testnet:
+  fschain-testnet:
     network: 'mainnet'
     neofs_blockfetcher_container_id: 'FidCcVzUxzY3PeUksCnnpUQ8h8PJeYPessX8FRMuveSy'
 #    p2p:
@@ -37,7 +37,7 @@ neogo__default_network_config:
     options:
       MaxTraceableBlocks: 2102400
 
-  - enabled: "{{ neogo__network_type is match('morph-.*') }}"
+  - enabled: "{{ neogo__network_type is match('fschain-.*') }}"
     path: ProtocolConfiguration
     options:
       MaxTraceableBlocks: 17280
@@ -80,7 +80,7 @@ neogo__default_network_config:
         Cockatrice: 5450000
         Domovoi: 5570000
 
-  - enabled: "{{ neogo__network_type == 'morph-mainnet' }}"
+  - enabled: "{{ neogo__network_type == 'fschain-mainnet' }}"
     path: ProtocolConfiguration
     options:
       Magic: 91414437
@@ -134,7 +134,7 @@ neogo__default_network_config:
       MaxBlockSystemFee: 150000000000
       MaxTransactionsPerBlock: 5000
 
-  - enabled: "{{ neogo__network_type == 'morph-testnet' }}"
+  - enabled: "{{ neogo__network_type == 'fschain-testnet' }}"
     path: ProtocolConfiguration
     options:
       Magic: 735783775
