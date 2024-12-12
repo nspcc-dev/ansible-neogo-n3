@@ -18,7 +18,7 @@ neogo__data_dir: '/var/lib/neogo{{ neogo__instance }}'
 neogo__bin_path: '/usr/bin/neogo{{ neogo__instance }}'
 
 # Available network types:
-# neo-mainnet, neo-testnet, morph-mainnet, morph-testnet, privnet
+# neo-mainnet, neo-testnet, fschain-mainnet, fschain-testnet, privnet
 neogo__network_type: ''
 
 # Available N3 networks: mainnet, testnet, privnet
