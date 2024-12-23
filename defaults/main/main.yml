@@ -28,6 +28,8 @@ neogo__wallet_path: '{{ neogo__conf_dir }}/wallet.json'
 neogo__wallet_password: ''
 neogo__wallet: ''
 
+neogo__time_per_block: '15s'
+
 neogo__stateroot_enabled: False
 neogo__stateroot_wallet_path: '{{ neogo__conf_dir }}/wallet.stateroot.json'
 neogo__stateroot_wallet_password: ''
@@ -101,7 +103,7 @@ neogo__raw_config:
   ProtocolConfiguration:
     MemPoolSize: 50000
     InitialGASSupply: 52000000
-    TimePerBlock: 15s
+    TimePerBlock: '{{ neogo__time_per_block }}'
     ValidatorsCount: 7
     VerifyTransactions: False
     P2PSigExtensions: False
