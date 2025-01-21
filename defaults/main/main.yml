@@ -98,6 +98,10 @@ neogo__neofs_blockfetcher_addresses:
   - grpcs://st4.storage.fs.neo.org:443
 neogo__neofs_blockfetcher_container_id: '{{ neogo__network_type_settings[neogo__network_type].neofs_blockfetcher_container_id }}'
 
+neogo__keep_only_latest_state: False
+neogo__remove_untraceable_blocks: False
+neogo__remove_untraceable_headers: False
+
 
 neogo__raw_config:
   ProtocolConfiguration:
@@ -218,6 +222,21 @@ neogo__default_config:
         DownloaderWorkersCount: 500
         BQueueSize: 16000
         IndexFileSize: 128000
+
+  - enabled: '{{ neogo__keep_only_latest_state }}'
+    path: ApplicationConfiguration
+    options:
+      KeepOnlyLatestState: true
+
+  - enabled: '{{ neogo__remove_untraceable_blocks }}'
+    path: ApplicationConfiguration
+    options:
+      RemoveUntraceableBlocks: true
+
+  - enabled: '{{ neogo__remove_untraceable_headers }}'
+    path: ApplicationConfiguration
+    options:
+      RemoveUntraceableHeaders: true
 
 neogo__config: []
 neogo__group_config: []
