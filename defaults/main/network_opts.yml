@@ -79,6 +79,7 @@ neogo__default_network_config:
         Basilisk: 4120000
         Cockatrice: 5450000
         Domovoi: 5570000
+        Echidna: 7300000
 
   - enabled: "{{ neogo__network_type == 'fschain-mainnet' }}"
     path: ProtocolConfiguration
@@ -96,9 +97,10 @@ neogo__default_network_config:
         - 'morph7.fs.neo.org:40333'
       Hardforks:
         Aspidochelone: 3000000
-        Basilisk: 4500000
-        Cockatrice: 5800000
-        Domovoi: 5800000
+        Basilisk: 3500000
+        Cockatrice: 3500000
+        Domovoi: 3500000
+        Echidna: 3519099
 
   - enabled: "{{ neogo__network_type == 'neo-testnet' }}"
     path: ProtocolConfiguration
@@ -137,6 +139,7 @@ neogo__default_network_config:
         Basilisk: 2680000
         Cockatrice: 3967000
         Domovoi: 4144000
+        Echidna: 5870000
       MaxBlockSize: 2097152
       MaxBlockSystemFee: 150000000000
       MaxTransactionsPerBlock: 5000
@@ -160,6 +163,7 @@ neogo__default_network_config:
         Basilisk: 0
         Cockatrice: 0
         Domovoi: 0
+        Echidna: 0
 
   - enabled: "{{ neogo__network_type == 'privnet' }}"
     options:
