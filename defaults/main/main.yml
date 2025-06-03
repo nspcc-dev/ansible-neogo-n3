@@ -55,6 +55,7 @@ neogo__p2p_addresses: [ '{{ neogo__p2p_address | ansible.utils.ipwrap }}:{{ neog
 neogo__p2p_allow: []
 neogo__p2p_group_allow: []
 neogo__p2p_host_allow: []
+neogo__relay_enabled: True
 
 neogo__rpc_enabled: True
 neogo__rpc_address: '{{ neogo__bind_address }}'
@@ -114,13 +115,17 @@ neogo__raw_config:
     StateRootInHeader: False
 
   ApplicationConfiguration:
-    Relay: True
     DBConfiguration:
       Type: 'boltdb'
       BoltDBOptions:
         FilePath: '{{ neogo__data_dir }}/{{ neogo__network }}.bolt'
 
 neogo__default_config:
+  - enabled: '{{ neogo__relay_enabled }}'
+    path: ApplicationConfiguration
+    options:
+      Relay: True
+
   - enabled: '{{ neogo__wallet|length > 0 }}'
     path: ApplicationConfiguration
     options:
