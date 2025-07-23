@@ -101,7 +101,6 @@ neogo__neofs_blockfetcher_container_id: '{{ neogo__network_type_settings[neogo__
 
 neogo__keep_only_latest_state: False
 neogo__remove_untraceable_blocks: False
-neogo__remove_untraceable_headers: False
 
 
 neogo__raw_config:
@@ -222,11 +221,9 @@ neogo__default_config:
         Addresses: '{{ neogo__neofs_blockfetcher_addresses }}'
         ContainerID: '{{ neogo__neofs_blockfetcher_container_id }}'
         BlockAttribute: 'Block'
-        IndexFileAttribute: 'Index'
         Timeout: '10m'
         DownloaderWorkersCount: 500
         BQueueSize: 16000
-        IndexFileSize: 128000
 
   - enabled: '{{ neogo__keep_only_latest_state }}'
     path: ApplicationConfiguration
@@ -237,11 +234,6 @@ neogo__default_config:
     path: ApplicationConfiguration
     options:
       RemoveUntraceableBlocks: true
-
-  - enabled: '{{ neogo__remove_untraceable_headers }}'
-    path: ApplicationConfiguration
-    options:
-      RemoveUntraceableHeaders: true
 
 neogo__config: []
 neogo__group_config: []
