@@ -11,11 +11,12 @@ neogo__instance: ''
 
 neogo__user: 'neogo{{ neogo__instance }}'
 neogo__group: 'neogo{{ neogo__instance }}'
+neogo__home: '/nonexistent'
 
 neogo__conf_dir: '/etc/neogo{{ neogo__instance }}'
 # Directory for chain database, snapshots and thing alike
-neogo__data_dir: '/var/lib/neogo{{ neogo__instance }}'
 neogo__bin_path: '/usr/bin/neogo{{ neogo__instance }}'
+neogo__boltdb: '/var/lib/neogo/{{ neogo__network }}{{ neogo__instance }}.bolt'
 
 # Available network types:
 # neo-mainnet, neo-testnet, fschain-mainnet, fschain-testnet, privnet
@@ -117,7 +118,7 @@ neogo__raw_config:
     DBConfiguration:
       Type: 'boltdb'
       BoltDBOptions:
-        FilePath: '{{ neogo__data_dir }}/{{ neogo__network }}.bolt'
+        FilePath: '{{ neogo__boltdb }}'
 
 neogo__default_config:
   - enabled: '{{ neogo__relay_enabled }}'
