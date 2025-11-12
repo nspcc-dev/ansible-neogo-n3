@@ -11,6 +11,6 @@
     group: '{{ neogo__group }}'
     password: '*'
     shell: '/usr/sbin/nologin'
-    home: '{{ neogo__data_dir }}'
+    home: '{{ neogo__home }}'
     system: yes
     skeleton: no

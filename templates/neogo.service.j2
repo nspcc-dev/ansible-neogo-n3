@@ -9,7 +9,6 @@ Type=simple
 ExecStart={{ neogo__bin_path }} node --config-file {{ neogo__conf_dir }}/config.yml
 User={{ neogo__user }}
 Group={{ neogo__group }}
-WorkingDirectory={{ neogo__data_dir }}
 Restart=always
 RestartSec=5
 PrivateTmp=true
