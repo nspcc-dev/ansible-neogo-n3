@@ -59,6 +59,7 @@ neogo__p2p_host_allow: []
 neogo__relay_enabled: True
 
 neogo__rpc_enabled: True
+neogo__rpc_session_enabled: False
 neogo__rpc_address: '{{ neogo__bind_address }}'
 neogo__rpc_port: '{{ neogo__network_type_settings[neogo__network_type].rpc }}'
 neogo__rpc_addresses: [ '{{ neogo__rpc_address | ansible.utils.ipwrap }}:{{ neogo__rpc_port }}' ]
@@ -157,6 +158,12 @@ neogo__default_config:
         EnableCORSWorkaround: False
         Addresses: '{{ neogo__rpc_addresses }}'
         StartWhenSynchronized: '{{ neogo__rpc_start_when_synchronized }}'
+
+  - enabled: '{{ neogo__rpc_session_enabled}}'
+    path: ApplicationConfiguration
+    options:
+      RPC:
+        SessionEnabled: True
 
   - enabled: '{{ neogo__rpc_enabled and neogo__tls_enabled }}'
     path: ApplicationConfiguration
