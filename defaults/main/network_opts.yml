@@ -81,6 +81,7 @@ neogo__default_network_config:
         Domovoi: 5570000
         Echidna: 7300000
         Faun: 8800000
+      MaxBlockSystemFee: 150000000000
 
   - enabled: "{{ neogo__network_type == 'fschain-mainnet' }}"
     path: ProtocolConfiguration
