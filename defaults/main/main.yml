@@ -16,7 +16,9 @@ neogo__home: '/nonexistent'
 neogo__conf_dir: '/etc/neogo{{ neogo__instance }}'
 # Directory for chain database, snapshots and thing alike
 neogo__bin_path: '/usr/bin/neogo{{ neogo__instance }}'
+neogo__db: 'bolt' # bolt | level
 neogo__boltdb: '/var/lib/neogo/{{ neogo__network }}{{ neogo__instance }}.bolt'
+neogo__leveldb: '/var/lib/neogo/{{ neogo__network }}{{ neogo__instance }}'
 
 # Available network types:
 # neo-mainnet, neo-testnet, fschain-mainnet, fschain-testnet, privnet
@@ -106,6 +108,7 @@ neogo__remove_untraceable_blocks: False
 
 
 neogo__raw_config:
+  ApplicationConfiguration:
   ProtocolConfiguration:
     MemPoolSize: 50000
     InitialGASSupply: 52000000
@@ -115,17 +118,27 @@ neogo__raw_config:
     P2PSigExtensions: False
     StateRootInHeader: False
 
-  ApplicationConfiguration:
-    DBConfiguration:
-      Type: 'boltdb'
-      BoltDBOptions:
-        FilePath: '{{ neogo__boltdb }}'
-
 neogo__default_config:
   - enabled: '{{ neogo__relay_enabled }}'
     path: ApplicationConfiguration
     options:
       Relay: True
+
+  - enabled: '{{ neogo__db == "bolt" }}'
+    path: ApplicationConfiguration
+    options:
+      DBConfiguration:
+        Type: 'boltdb'
+        BoltDBOptions:
+          FilePath: '{{ neogo__boltdb }}'
+
+  - enabled: '{{ neogo__db == "level" }}'
+    path: ApplicationConfiguration
+    options:
+      DBConfiguration:
+        Type: 'leveldb'
+        LevelDBOptions:
+          DataDirectoryPath: '{{ neogo__leveldb }}'
 
   - enabled: '{{ neogo__wallet|length > 0 }}'
     path: ApplicationConfiguration
