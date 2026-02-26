@@ -17,15 +17,12 @@ neogo__conf_dir: '/etc/neogo{{ neogo__instance }}'
 # Directory for chain database, snapshots and thing alike
 neogo__bin_path: '/usr/bin/neogo{{ neogo__instance }}'
 neogo__db: 'bolt' # bolt | level
-neogo__boltdb: '/var/lib/neogo/{{ neogo__network }}{{ neogo__instance }}.bolt'
-neogo__leveldb: '/var/lib/neogo/{{ neogo__network }}{{ neogo__instance }}'
+neogo__boltdb: '/var/lib/neogo/{{ neogo__network_type }}{{ neogo__instance }}.bolt'
+neogo__leveldb: '/var/lib/neogo/{{ neogo__network_type }}{{ neogo__instance }}'
 
 # Available network types:
 # neo-mainnet, neo-testnet, fschain-mainnet, fschain-testnet, privnet
 neogo__network_type: ''
-
-# Available N3 networks: mainnet, testnet, privnet
-neogo__network: '{{ neogo__network_type_settings[neogo__network_type].network }}'
 
 neogo__wallet_path: '{{ neogo__conf_dir }}/wallet.json'
 neogo__wallet_password: ''
