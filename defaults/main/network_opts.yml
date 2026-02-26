@@ -2,34 +2,29 @@
 
 neogo__network_type_settings:
   neo-mainnet:
-    network: 'mainnet'
     neofs_blockfetcher_container_id: '3RCdP3ZubyKyo8qFeo7EJPryidTZaGCMdUjqFJaaEKBV'
     p2p: 10333
     rpc: 10332
     tls: 10331
   neo-testnet:
-    network: 'testnet'
     neofs_blockfetcher_container_id: 'A8nGtDemWrm2SjfcGAG6wvrxmXwqc5fwr8ezNDm6FraT'
     p2p: 20333
     rpc: 20332
     tls: 20331
   privnet:
-    network: 'privnet'
     p2p: 30333
     rpc: 30332
     tls: 30331
   fschain-mainnet:
-    network: 'mainnet'
     neofs_blockfetcher_container_id: 'BP71MqY7nJhpuHfdQU3infRSjMgVmSFFt9GfG2GGMZJj'
-#    p2p:
-#    rpc:
-#    tls:
+#   p2p:
+#   rpc:
+#   tls:
   fschain-testnet:
-    network: 'mainnet'
     neofs_blockfetcher_container_id: '98xz5YeanzxRCpH6EfUhECVm2MynGYchDN4naJViHT9M'
-#    p2p:
-#    rpc:
-#    tls:
+#   p2p:
+#   rpc:
+#   tls:
 
 neogo__default_network_config:
   - enabled: "{{ neogo__network_type is match('neo-.*') }}"
