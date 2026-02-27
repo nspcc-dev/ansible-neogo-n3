@@ -164,7 +164,6 @@ neogo__default_config:
     options:
       RPC:
         Enabled: True
-        MaxGasInvoke: 100
         EnableCORSWorkaround: False
         Addresses: '{{ neogo__rpc_addresses }}'
         StartWhenSynchronized: '{{ neogo__rpc_start_when_synchronized }}'
