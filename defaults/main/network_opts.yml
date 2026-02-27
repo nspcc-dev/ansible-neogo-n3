@@ -37,6 +37,18 @@ neogo__default_network_config:
     options:
       MaxTraceableBlocks: 17280
 
+  - enabled: "{{ neogo__network_type is match('neo-.*') }}"
+    path: ApplicationConfiguration
+    options:
+      RPC:
+        MaxGasInvoke: 20
+
+  - enabled: "{{ neogo__network_type is match('fschain-.*') }}"
+    path: ApplicationConfiguration
+    options:
+      RPC:
+        MaxGasInvoke: 100
+
   - enabled: "{{ neogo__network_type == 'neo-mainnet' }}"
     path: ProtocolConfiguration
     options:
