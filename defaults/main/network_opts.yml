@@ -88,6 +88,7 @@ neogo__default_network_config:
         Domovoi: 5570000
         Echidna: 7300000
         Faun: 8800000
+        Gorgon: 12020000
       MaxBlockSystemFee: 150000000000
 
   - enabled: "{{ neogo__network_type == 'fschain-mainnet' }}"
@@ -111,6 +112,7 @@ neogo__default_network_config:
         Domovoi: 3500000
         Echidna: 3519099
         Faun: 19725000
+        Gorgon: 20700000
 
   - enabled: "{{ neogo__network_type == 'neo-testnet' }}"
     path: ProtocolConfiguration
@@ -151,6 +153,7 @@ neogo__default_network_config:
         Domovoi: 4144000
         Echidna: 5870000
         Faun: 12960000
+        Gorgon: 17960000
       MaxBlockSize: 2097152
       MaxBlockSystemFee: 150000000000
       MaxTransactionsPerBlock: 5000
@@ -176,6 +179,7 @@ neogo__default_network_config:
         Domovoi: 0
         Echidna: 0
         Faun: 19340000
+        Gorgon: 20200000
 
   - enabled: "{{ neogo__network_type == 'privnet' }}"
     options:
