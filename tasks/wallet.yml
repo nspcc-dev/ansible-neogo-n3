@@ -7,7 +7,7 @@
     owner: 'root'
     group: '{{ neogo__group }}'
     mode: '0640'
-  when: neogo__wallet|length
+  when: neogo__wallet | length > 0
   notify: [ 'Restart NeoGo{{ neogo__instance }}' ]
 
 - name: Copy Stateroot Validator wallet
@@ -17,7 +17,7 @@
     owner: 'root'
     group: '{{ neogo__group }}'
     mode: '0640'
-  when: neogo__stateroot_wallet|length
+  when: neogo__stateroot_wallet | length > 0
   notify: [ 'Restart NeoGo{{ neogo__instance }}' ]
 
 - name: Copy Oracle wallet
@@ -27,7 +27,7 @@
     owner: 'root'
     group: '{{ neogo__group }}'
     mode: '0640'
-  when: neogo__oracle_wallet|length
+  when: neogo__oracle_wallet | length > 0
   notify: [ 'Restart NeoGo{{ neogo__instance }}' ]
 
 - name: Copy Notary Service wallet
@@ -37,5 +37,5 @@
     owner: 'root'
     group: '{{ neogo__group }}'
     mode: '0640'
-  when: neogo__p2pnotary_wallet|length
+  when: neogo__p2pnotary_wallet | length > 0
   notify: [ 'Restart NeoGo{{ neogo__instance }}' ]
